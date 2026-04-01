@@ -17,6 +17,11 @@ trait ProfileValidationRules
         return [
             'name' => $this->nameRules(),
             'email' => $this->emailRules($userId),
+            'gender' => ['nullable', 'string', 'in:male,female,other'],
+            'dob' => ['nullable', 'date', 'before:today'],
+            'job' => ['nullable', 'string', 'max:100'],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'bio' => ['nullable', 'string', 'max:1000'],
         ];
     }
 

@@ -71,7 +71,11 @@ Route::prefix('v1')->group(function () {
         // Consultations
         Route::prefix('consultations')->group(function () {
             Route::get('/', [ConsultationController::class, 'index'])->name('api.consultations.index');
+            Route::post('/', [ConsultationController::class, 'store'])->name('api.consultations.store');
             Route::get('{consultation}', [ConsultationController::class, 'show'])->name('api.consultations.show');
+            Route::patch('{consultation}/cancel', [ConsultationController::class, 'cancel'])->name('api.consultations.cancel');
+            Route::patch('{consultation}/start', [ConsultationController::class, 'start'])->name('api.consultations.start');
+            Route::patch('{consultation}/complete', [ConsultationController::class, 'complete'])->name('api.consultations.complete');
         });
 
         // Notifications

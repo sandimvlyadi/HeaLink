@@ -1,5 +1,3 @@
-import { Transition } from '@headlessui/react';
-import { Form, Head, Link, usePage } from '@inertiajs/react';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DeleteUser from '@/components/delete-user';
 import Heading from '@/components/heading';
@@ -7,15 +5,28 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
+import type { UserProfile } from '@/types';
+import { Transition } from '@headlessui/react';
+import { Form, Head, Link, usePage } from '@inertiajs/react';
 
 export default function Profile({
     mustVerifyEmail,
     status,
+    profile,
 }: {
     mustVerifyEmail: boolean;
     status?: string;
+    profile?: UserProfile | null;
 }) {
     const { auth } = usePage().props;
 
@@ -29,7 +40,7 @@ export default function Profile({
                 <Heading
                     variant="small"
                     title="Profile information"
-                    description="Update your name and email address"
+                    description="Update your name, email address, and personal details"
                 />
 
                 <Form
@@ -104,6 +115,88 @@ export default function Profile({
                                         )}
                                     </div>
                                 )}
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="gender">Gender</Label>
+                                <Select
+                                    name="gender"
+                                    defaultValue={profile?.gender ?? ''}
+                                >
+                                    <SelectTrigger id="gender">
+                                        <SelectValue placeholder="Select gender..." />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="male">
+                                            Male
+                                        </SelectItem>
+                                        <SelectItem value="female">
+                                            Female
+                                        </SelectItem>
+                                        <SelectItem value="other">
+                                            Other
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <InputError message={errors.gender} />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="dob">Date of birth</Label>
+                                <Input
+                                    id="dob"
+                                    type="date"
+                                    name="dob"
+                                    defaultValue={
+                                        profile?.dob
+                                            ? new Date(profile.dob)
+                                                  .toISOString()
+                                                  .slice(0, 10)
+                                            : ''
+                                    }
+                                    max={new Date().toISOString().slice(0, 10)}
+                                />
+                                <InputError message={errors.dob} />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="job">
+                                    Occupation / Specialization
+                                </Label>
+                                <Input
+                                    id="job"
+                                    name="job"
+                                    defaultValue={profile?.job ?? ''}
+                                    placeholder="e.g. Cardiologist, Software Engineer"
+                                    maxLength={100}
+                                />
+                                <InputError message={errors.job} />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="phone">Phone number</Label>
+                                <Input
+                                    id="phone"
+                                    name="phone"
+                                    type="tel"
+                                    defaultValue={profile?.phone ?? ''}
+                                    placeholder="+62 812 3456 7890"
+                                    maxLength={20}
+                                />
+                                <InputError message={errors.phone} />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="bio">Bio</Label>
+                                <Textarea
+                                    id="bio"
+                                    name="bio"
+                                    defaultValue={profile?.bio ?? ''}
+                                    placeholder="Tell us a little about yourself"
+                                    rows={4}
+                                    maxLength={1000}
+                                />
+                                <InputError message={errors.bio} />
+                            </div>
 
                             <div className="flex items-center gap-4">
                                 <Button

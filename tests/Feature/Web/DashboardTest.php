@@ -62,7 +62,10 @@ test('patient can also access dashboard', function () {
         ->assertOk()
         ->assertInertia(fn ($page) => $page
             ->component('dashboard')
-            ->has('patients.data')
-            ->has('stats')
+            ->has('patientStats')
+            ->has('patientStats.total_consultations')
+            ->has('patientStats.pending_consultations')
+            ->has('patientStats.completed_consultations')
+            ->has('recentConsultations')
         );
 });

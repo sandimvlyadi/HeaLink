@@ -2,6 +2,10 @@ import { index as adminStats } from '@/actions/App/Http/Controllers/Web/Admin/St
 import { index as adminUsers } from '@/actions/App/Http/Controllers/Web/Admin/UserManagementController';
 import { index as consultationsIndex } from '@/actions/App/Http/Controllers/Web/ConsultationController';
 import { index as notificationsIndex } from '@/actions/App/Http/Controllers/Web/NotificationController';
+import {
+    create as patientConsultationCreate,
+    index as patientConsultationsIndex,
+} from '@/actions/App/Http/Controllers/Web/Patient/ConsultationController';
 import { index as patientsIndex } from '@/actions/App/Http/Controllers/Web/PatientController';
 import { index as reportsIndex } from '@/actions/App/Http/Controllers/Web/ReportController';
 import { index as riskIndex } from '@/actions/App/Http/Controllers/Web/RiskController';
@@ -25,10 +29,9 @@ import { Link, usePage } from '@inertiajs/react';
 import {
     BarChart3,
     Bell,
-    BookOpen,
     CalendarClock,
+    CalendarPlus,
     FileText,
-    FolderGit2,
     LayoutGrid,
     Settings,
     ShieldAlert,
@@ -40,6 +43,7 @@ export function AppSidebar() {
     const user = page.props.auth?.user as { role?: string } | undefined;
     const isAdmin = user?.role === 'admin';
     const isMedic = user?.role === 'medic' || isAdmin;
+    const isPatient = user?.role === 'patient';
 
     const dashboardUrl = page.props.currentTeam
         ? dashboard(page.props.currentTeam.slug)
@@ -79,7 +83,20 @@ export function AppSidebar() {
                       icon: FileText,
                   },
               ]
-            : []),
+            : isPatient
+              ? [
+                    {
+                        title: 'Konsultasi Saya',
+                        href: patientConsultationsIndex.url(),
+                        icon: CalendarClock,
+                    },
+                    {
+                        title: 'Buat Konsultasi',
+                        href: patientConsultationCreate.url(),
+                        icon: CalendarPlus,
+                    },
+                ]
+              : []),
     ];
 
     const adminNavItems: NavItem[] = isAdmin

@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\Admin\UserManagementController;
 use App\Http\Controllers\Web\ConsultationController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\NotificationController;
+use App\Http\Controllers\Web\Patient\ConsultationController as PatientConsultationController;
 use App\Http\Controllers\Web\PatientController;
 use App\Http\Controllers\Web\ReportController;
 use App\Http\Controllers\Web\RiskController;
@@ -29,6 +30,9 @@ Route::middleware(['auth', 'verified', 'role:medic,admin'])->group(function () {
 
     Route::get('/consultations', [ConsultationController::class, 'index'])->name('consultations.index');
     Route::get('/consultations/{consultation:uuid}/room', [ConsultationController::class, 'room'])->name('consultations.room');
+    Route::patch('/consultations/{consultation:uuid}/start', [ConsultationController::class, 'start'])->name('consultations.start');
+    Route::patch('/consultations/{consultation:uuid}/cancel', [ConsultationController::class, 'cancel'])->name('consultations.cancel');
+    Route::patch('/consultations/{consultation:uuid}/complete', [ConsultationController::class, 'complete'])->name('consultations.complete');
 
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::patch('/notifications/{notification:uuid}/read', [NotificationController::class, 'markRead'])->name('notifications.read');
@@ -42,6 +46,14 @@ Route::middleware(['auth', 'verified', 'role:medic,admin'])->group(function () {
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/admin/users', [UserManagementController::class, 'index'])->name('admin.users');
     Route::get('/admin/statistics', [StatisticsController::class, 'index'])->name('admin.statistics');
+});
+
+Route::middleware(['auth', 'verified', 'role:patient'])->group(function () {
+    Route::get('/my/consultations', [PatientConsultationController::class, 'index'])->name('patient.consultations.index');
+    Route::get('/my/consultations/create', [PatientConsultationController::class, 'create'])->name('patient.consultations.create');
+    Route::post('/my/consultations', [PatientConsultationController::class, 'store'])->name('patient.consultations.store');
+    Route::get('/my/consultations/{consultation:uuid}', [PatientConsultationController::class, 'show'])->name('patient.consultations.show');
+    Route::patch('/my/consultations/{consultation:uuid}/cancel', [PatientConsultationController::class, 'cancel'])->name('patient.consultations.cancel');
 });
 
 Route::middleware(['auth'])->group(function () {

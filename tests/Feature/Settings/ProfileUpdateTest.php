@@ -83,3 +83,36 @@ test('correct password must be provided to delete account', function () {
 
     expect($user->fresh())->not->toBeNull();
 });
+
+test('profile extended fields can be updated', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->patch(route('profile.update'), [
+            'name' => $user->name,
+            'email' => $user->email,
+            'gender' => 'male',
+            'dob' => '1990-05-15',
+            'job' => 'Engineer',
+            'phone' => '+6281234567890',
+            'bio' => 'A short bio.',
+        ])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('profile.edit'));
+
+    $profile = $user->refresh()->profile;
+
+    expect($profile->gender)->toBe('male')
+        ->and($profile->job)->toBe('Engineer')
+        ->and($profile->phone)->toBe('+6281234567890')
+        ->and($profile->bio)->toBe('A short bio.');
+});
+
+test('profile page passes profile data to the view', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get(route('profile.edit'))
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page->has('profile'));
+});
