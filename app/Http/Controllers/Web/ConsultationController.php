@@ -14,7 +14,10 @@ class ConsultationController extends Controller
 {
     public function index(): Response
     {
+        $user = auth()->user();
+
         $consultations = Consultation::with(['patient.profile', 'medic'])
+            ->when($user->role === 'medic', fn ($q) => $q->where('medic_id', $user->id))
             ->latest('scheduled_at')
             ->paginate(15);
 
@@ -25,16 +28,16 @@ class ConsultationController extends Controller
 
         return Inertia::render('consultations/index', [
             'consultations' => ConsultationResource::collection($consultations),
-            'patients'      => PatientResource::collection($patients),
+            'patients' => PatientResource::collection($patients),
         ]);
     }
 
     public function room(Consultation $consultation): Response
     {
-        $consultation->load(['patient.profile', 'medic']);
+        $consultation->load(['patient.profile', 'patient.latestMentalStatus', 'medic']);
 
         return Inertia::render('consultations/room', [
-            'consultation' => new ConsultationResource($consultation),
+            'consultation' => (new ConsultationResource($consultation))->resolve(),
         ]);
     }
 }

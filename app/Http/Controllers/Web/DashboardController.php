@@ -14,24 +14,24 @@ class DashboardController extends Controller
 {
     public function index(): Response
     {
-        $patientIds = User::where('role', 'patient')->pluck('id');
-
         $patients = User::where('role', 'patient')
             ->where('is_active', true)
             ->with(['profile', 'latestMentalStatus', 'latestWearable'])
             ->latest()
             ->paginate(15);
 
+        $since = now()->subDay();
+
         $stats = [
-            'total_patients'        => $patientIds->count(),
-            'high_risk_patients'    => MentalStatusLog::whereIn('risk_level', ['high', 'critical'])
-                ->whereIn('user_id', $patientIds)
-                ->whereDate('created_at', '>=', now()->subDay())
+            'total_patients' => User::where('role', 'patient')->count(),
+            'high_risk_patients' => MentalStatusLog::whereIn('risk_level', ['high', 'critical'])
+                ->whereHas('user', fn ($q) => $q->where('role', 'patient'))
+                ->whereDate('created_at', '>=', $since)
                 ->distinct('user_id')
                 ->count(),
-            'critical_patients'     => MentalStatusLog::where('risk_level', 'critical')
-                ->whereIn('user_id', $patientIds)
-                ->whereDate('created_at', '>=', now()->subDay())
+            'critical_patients' => MentalStatusLog::where('risk_level', 'critical')
+                ->whereHas('user', fn ($q) => $q->where('role', 'patient'))
+                ->whereDate('created_at', '>=', $since)
                 ->distinct('user_id')
                 ->count(),
             'pending_consultations' => Consultation::where('status', 'pending')->count(),
@@ -39,7 +39,7 @@ class DashboardController extends Controller
 
         return Inertia::render('dashboard', [
             'patients' => PatientResource::collection($patients),
-            'stats'    => $stats,
+            'stats' => $stats,
         ]);
     }
 }

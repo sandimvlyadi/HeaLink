@@ -199,22 +199,19 @@ export default function ConsultationsIndex({ consultations, patients }: Props) {
                                                     : '—'}
                                             </TableCell>
                                             <TableCell>
-                                                {(c.status === 'ongoing' ||
-                                                    c.status === 'pending') && (
-                                                    <Button asChild size="sm">
-                                                        <Link
-                                                            href={
-                                                                room({
-                                                                    consultation:
-                                                                        c.uuid,
-                                                                }).url
-                                                            }
-                                                        >
-                                                            <LogIn className="mr-1.5 size-3.5" />
-                                                            Masuk
-                                                        </Link>
-                                                    </Button>
-                                                )}
+                                                <Button asChild size="sm">
+                                                    <Link
+                                                        href={
+                                                            room({
+                                                                consultation:
+                                                                    c.uuid,
+                                                            }).url
+                                                        }
+                                                    >
+                                                        <LogIn className="mr-1.5 size-3.5" />
+                                                        Masuk
+                                                    </Link>
+                                                </Button>
                                             </TableCell>
                                         </TableRow>
                                     ))

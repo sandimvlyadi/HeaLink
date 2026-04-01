@@ -1246,12 +1246,12 @@ tests/
 
 ### Phase 5 — Polish
 
-- [ ] Empty states, loading skeletons (shadcn `Skeleton`)
-- [ ] Error boundaries di React
-- [ ] Auto-refresh real-time via Reverb/Echo
-- [ ] TypeScript types audit (hapus semua `any`)
-- [ ] Pest feature tests untuk semua web routes
-- [ ] PostgreSQL query review (EXPLAIN ANALYZE semua query berat)
+- [x] Empty states, loading skeletons (shadcn `Skeleton`)
+- [x] Error boundaries di React
+- [x] Auto-refresh real-time via Reverb/Echo
+- [x] TypeScript types audit (hapus semua `any`)
+- [x] Pest feature tests untuk semua web routes
+- [x] PostgreSQL query review (EXPLAIN ANALYZE semua query berat)
 
 ---
 

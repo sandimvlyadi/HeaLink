@@ -50,7 +50,7 @@ test('consultation room response exposes uuid not id', function () {
         ->assertOk()
         ->assertInertia(fn ($page) => $page
             ->component('consultations/room')
-            ->has('consultation.data.uuid')
-            ->missing('consultation.data.id')
+            ->has('consultation.uuid')
+            ->missing('consultation.id')
         );
 });

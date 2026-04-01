@@ -12,9 +12,10 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useDoctorRiskAlerts } from '@/hooks/use-real-time';
 import { dashboard } from '@/routes';
 import type { PaginatedResource, Patient } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
     Activity,
     AlertTriangle,
@@ -52,10 +53,17 @@ const riskLabel: Record<string, string> = {
 export default function Dashboard({ patients, stats }: Props) {
     const page = usePage();
     const dashboardUrl = page.props.currentTeam ? dashboard() : '/';
+    const authUser = page.props.auth?.user as {
+        role?: string;
+        uuid?: string;
+    } | null;
 
-    const isMedic =
-        (page.props.auth?.user as { role?: string })?.role === 'medic' ||
-        (page.props.auth?.user as { role?: string })?.role === 'admin';
+    const isMedic = authUser?.role === 'medic' || authUser?.role === 'admin';
+
+    // Auto-refresh dashboard when a risk alert fires on the doctor's channel
+    useDoctorRiskAlerts(isMedic ? (authUser?.uuid ?? null) : null, () => {
+        router.reload({ only: ['patients', 'stats'] });
+    });
 
     return (
         <>

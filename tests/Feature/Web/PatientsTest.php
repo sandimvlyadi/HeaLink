@@ -39,7 +39,7 @@ test('medic can view patient detail', function () {
         ->assertInertia(fn ($page) => $page->component('patients/show'));
 });
 
-test('patient detail returns wearable sleep and risk history', function () {
+test('patient detail initial load omits deferred props', function () {
     $medic = User::factory()->medic()->create();
     $patient = User::factory()->patient()->create();
 
@@ -49,10 +49,28 @@ test('patient detail returns wearable sleep and risk history', function () {
         ->assertInertia(fn ($page) => $page
             ->component('patients/show')
             ->has('patient')
-            ->has('wearableHistory')
-            ->has('sleepHistory')
-            ->has('riskHistory')
+            ->missing('wearableHistory')
+            ->missing('sleepHistory')
+            ->missing('riskHistory')
         );
+});
+
+test('patient detail deferred props resolve on partial reload', function () {
+    $medic = User::factory()->medic()->create();
+    $patient = User::factory()->patient()->create();
+    $version = (string) hash_file('xxh128', public_path('build/manifest.json'));
+
+    $response = $this->actingAs($medic)
+        ->withHeaders([
+            'X-Inertia' => 'true',
+            'X-Inertia-Version' => $version,
+            'X-Inertia-Partial-Component' => 'patients/show',
+            'X-Inertia-Partial-Data' => 'wearableHistory,sleepHistory,riskHistory',
+        ])
+        ->getJson(route('patients.show', ['user' => $patient->uuid]));
+
+    $response->assertOk();
+    $response->assertJsonStructure(['props' => ['wearableHistory', 'sleepHistory', 'riskHistory']]);
 });
 
 test('medic can view patient chat log', function () {

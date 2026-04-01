@@ -30,24 +30,22 @@ class PatientController extends Controller
     {
         $user->load(['profile', 'latestMentalStatus', 'latestWearable', 'latestScreening']);
 
-        $wearableHistory = WearableDataResource::collection(
-            $user->wearableData()->orderBy('recorded_at', 'desc')->limit(48)->get()
-        );
-
-        $sleepHistory = SleepLogResource::collection(
-            $user->sleepLogs()->orderBy('sleep_date', 'desc')->limit(30)->get()
-        );
-
-        $riskHistory = MentalStatusLogResource::collection(
-            $user->mentalStatusLogs()->latest()->limit(10)->get()
-        );
-
         return Inertia::render('patients/show', [
-            // Resolve resources so Inertia props match frontend TS shapes (plain object/array)
-            'patient'         => (new PatientResource($user))->resolve(),
-            'wearableHistory' => $wearableHistory->resolve(),
-            'sleepHistory'    => $sleepHistory->resolve(),
-            'riskHistory'     => $riskHistory->resolve(),
+            // Resolve resource eagerly — needed for page title and header rendering
+            'patient' => (new PatientResource($user))->resolve(),
+
+            // History data is deferred — loads after the initial page paint
+            'wearableHistory' => Inertia::defer(fn () => WearableDataResource::collection(
+                $user->wearableData()->orderBy('recorded_at', 'desc')->limit(48)->get()
+            )->resolve()),
+
+            'sleepHistory' => Inertia::defer(fn () => SleepLogResource::collection(
+                $user->sleepLogs()->orderBy('sleep_date', 'desc')->limit(30)->get()
+            )->resolve()),
+
+            'riskHistory' => Inertia::defer(fn () => MentalStatusLogResource::collection(
+                $user->mentalStatusLogs()->latest()->limit(10)->get()
+            )->resolve()),
         ]);
     }
 
@@ -58,7 +56,7 @@ class PatientController extends Controller
         );
 
         return Inertia::render('patients/chat-log', [
-            'patient'       => (new PatientResource($user->load('profile')))->resolve(),
+            'patient' => (new PatientResource($user->load('profile')))->resolve(),
             'chatHistories' => $chatHistories->response()->getData(true),
         ]);
     }
