@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ChatController;
+use App\Http\Controllers\Api\ConsultationController;
+use App\Http\Controllers\Api\MentalStatusController;
 use App\Http\Controllers\Api\MoodJournalController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ScreeningController;
@@ -58,6 +60,18 @@ Route::prefix('v1')->group(function () {
         Route::prefix('mood')->group(function () {
             Route::post('/', [MoodJournalController::class, 'store'])->name('api.mood.store');
             Route::get('/', [MoodJournalController::class, 'index'])->name('api.mood.index');
+        });
+
+        // Mental Health Status
+        Route::prefix('mental-status')->group(function () {
+            Route::get('/', [MentalStatusController::class, 'index'])->name('api.mental-status.index');
+            Route::get('latest', [MentalStatusController::class, 'latest'])->name('api.mental-status.latest');
+        });
+
+        // Consultations
+        Route::prefix('consultations')->group(function () {
+            Route::get('/', [ConsultationController::class, 'index'])->name('api.consultations.index');
+            Route::get('{consultation}', [ConsultationController::class, 'show'])->name('api.consultations.show');
         });
 
         // Notifications

@@ -11,6 +11,14 @@ use Illuminate\Http\Request;
 
 class ScreeningController extends Controller
 {
+    /**
+     * Create or update the health screening record.
+     *
+     * Each user has a single health screening record that is upserted on every
+     * call. BMI is automatically computed from `height_cm` and `weight_kg`.
+     * PHQ-9 total score is auto-calculated when `phq9_answers` is provided
+     * (array of 9 integers 0–3). Returns 201 on first creation, 200 on update.
+     */
     public function upsert(StoreScreeningRequest $request): JsonResponse
     {
         $validated = $request->validated();
@@ -33,7 +41,7 @@ class ScreeningController extends Controller
         $screening = HealthScreening::updateOrCreate(
             ['user_id' => $user->id],
             array_merge($validated, [
-                'bmi'        => $bmi,
+                'bmi' => $bmi,
                 'phq9_score' => $phq9Score,
             ]),
         );
@@ -43,11 +51,17 @@ class ScreeningController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Data screening berhasil disimpan',
-            'data'    => new HealthScreeningResource($screening),
-            'meta'    => ['timestamp' => now()->toIso8601String()],
+            'data' => new HealthScreeningResource($screening),
+            'meta' => ['timestamp' => now()->toIso8601String()],
         ], $statusCode);
     }
 
+    /**
+     * Get the latest health screening record.
+     *
+     * Returns the most-recently updated health screening for the authenticated
+     * user. Returns `null` if no screening has been submitted yet.
+     */
     public function latest(Request $request): JsonResponse
     {
         $screening = $request->user()
@@ -58,8 +72,8 @@ class ScreeningController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'OK',
-            'data'    => $screening ? new HealthScreeningResource($screening) : null,
-            'meta'    => ['timestamp' => now()->toIso8601String()],
+            'data' => $screening ? new HealthScreeningResource($screening) : null,
+            'meta' => ['timestamp' => now()->toIso8601String()],
         ]);
     }
 }

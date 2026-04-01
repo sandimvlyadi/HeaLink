@@ -11,6 +11,9 @@ use App\Listeners\TriggerRiskAssessment;
 use App\Services\AI\FallbackAIProvider;
 use App\Services\AI\OpenAIProvider;
 use Carbon\CarbonImmutable;
+use Dedoc\Scramble\Scramble;
+use Dedoc\Scramble\Support\Generator\OpenApi;
+use Dedoc\Scramble\Support\Generator\SecurityScheme;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -41,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureDefaults();
         $this->configureRateLimiters();
         $this->registerEventListeners();
+        $this->configureScramble();
     }
 
     /**
@@ -82,5 +86,17 @@ class AppServiceProvider extends ServiceProvider
             : null,
         );
     }
-}
 
+    /**
+     * Configure Scramble API documentation with Bearer token auth.
+     */
+    private function configureScramble(): void
+    {
+        Scramble::configure()
+            ->withDocumentTransformers(function (OpenApi $openApi) {
+                $openApi->secure(
+                    SecurityScheme::http('bearer'),
+                );
+            });
+    }
+}
