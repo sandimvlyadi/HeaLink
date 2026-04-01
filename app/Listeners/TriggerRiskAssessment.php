@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\NewSentimentAlert;
+use App\Events\PatientRiskElevated;
 use App\Events\VitalDataSynced;
 use App\Services\RiskScoringService;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -28,8 +29,7 @@ class TriggerRiskAssessment implements ShouldQueue
 
         // Fire PatientRiskElevated if risk level is high or critical
         if (in_array($mentalStatusLog->risk_level, ['high', 'critical'], true)) {
-            \App\Events\PatientRiskElevated::dispatch($user, $mentalStatusLog);
+            PatientRiskElevated::dispatch($user, $mentalStatusLog);
         }
     }
 }
-
