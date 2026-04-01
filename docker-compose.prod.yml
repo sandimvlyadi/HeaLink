@@ -6,7 +6,7 @@ services:
     image: healink:latest
     container_name: healink-app
     ports:
-      - '8086:80'
+      - '8001:80'
     env_file:
       - .env
     restart: unless-stopped
@@ -22,7 +22,7 @@ services:
     image: healink:latest
     container_name: healink-reverb
     ports:
-      - '8087:8080'
+      - '8002:8080'
     env_file:
       - .env
     command: php artisan reverb:start --host=0.0.0.0 --port=8080
