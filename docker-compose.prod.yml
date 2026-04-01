@@ -1,0 +1,98 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: healink:latest
+    container_name: healink-app
+    ports:
+      - '8086:80'
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - healink-network
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - healink_storage:/app/storage
+
+  reverb:
+    image: healink:latest
+    container_name: healink-reverb
+    ports:
+      - '8087:8080'
+    env_file:
+      - .env
+    command: php artisan reverb:start --host=0.0.0.0 --port=8080
+    restart: unless-stopped
+    networks:
+      - healink-network
+    depends_on:
+      - redis
+    healthcheck:
+      disable: true
+
+  queue:
+    image: healink:latest
+    container_name: healink-queue
+    env_file:
+      - .env
+    command: php artisan queue:work --sleep=3 --tries=3 --max-time=3600
+    restart: unless-stopped
+    networks:
+      - healink-network
+    depends_on:
+      - redis
+    healthcheck:
+      disable: true
+
+  scheduler:
+    image: healink:latest
+    container_name: healink-scheduler
+    env_file:
+      - .env
+    command: /bin/sh -c "while true; do php artisan schedule:run; sleep 60; done"
+    restart: unless-stopped
+    networks:
+      - healink-network
+    depends_on:
+      - redis
+    healthcheck:
+      disable: true
+
+  redis:
+    image: redis:8-alpine
+    container_name: healink-redis
+    ports:
+      - '6381:6379'
+    restart: unless-stopped
+    networks:
+      - healink-network
+    volumes:
+      - redis_data:/data
+
+  postgres:
+    image: postgres:18
+    container_name: healink-postgres
+    ports:
+      - '5434:5432'
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-mysecretpassword}
+      - POSTGRES_DB=${DB_DATABASE:-healink}
+      - POSTGRES_USER=${DB_USERNAME:-healink}
+    restart: unless-stopped
+    networks:
+      - healink-network
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+volumes:
+  redis_data:
+  postgres_data:
+  healink_storage:
+
+networks:
+  healink-network:
+    driver: bridge

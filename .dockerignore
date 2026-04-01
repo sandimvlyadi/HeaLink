@@ -1,0 +1,33 @@
+# Docker files
+Dockerfile
+docker-compose.yml
+docker-compose.prod.yml
+.env.docker
+
+# Docker volumes
+/var/lib/docker/
+
+# Development logs
+/storage/logs/
+/bootstrap/cache/
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor/
+
+# Node modules in container
+node_modules/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.github/
+.vscode/
+.idea/

@@ -25,5 +25,8 @@ yarn-error.log
 /.idea
 /.nova
 /.vscode
-!/.vscode/settings.json
 /.zed
+
+**/caddy
+frankenphp
+frankenphp-worker.php
