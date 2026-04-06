@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\ConsultationController;
+use App\Http\Controllers\Api\MedicController;
 use App\Http\Controllers\Api\MentalStatusController;
 use App\Http\Controllers\Api\MoodJournalController;
 use App\Http\Controllers\Api\NotificationController;
@@ -67,6 +68,9 @@ Route::prefix('v1')->group(function () {
             Route::get('/', [MentalStatusController::class, 'index'])->name('api.mental-status.index');
             Route::get('latest', [MentalStatusController::class, 'latest'])->name('api.mental-status.latest');
         });
+
+        // Medics
+        Route::get('medics', [MedicController::class, 'index'])->name('api.medics.index');
 
         // Consultations
         Route::prefix('consultations')->group(function () {
