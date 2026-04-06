@@ -1,3 +1,5 @@
+import { Head, Link } from '@inertiajs/react';
+import { ArrowLeft, Bot, Flag, User } from 'lucide-react';
 import {
     show as patientShow,
     index as patientsIndex,
@@ -6,8 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import type { ChatHistory, PaginatedResource, Patient } from '@/types';
-import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Bot, Flag, User } from 'lucide-react';
 
 interface Props {
     patient: Patient;

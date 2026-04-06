@@ -1,5 +1,3 @@
-import { Button } from '@/components/ui/button';
-import { dashboard, login, register } from '@/routes';
 import { Head, Link, usePage } from '@inertiajs/react';
 import {
     Activity,
@@ -9,6 +7,8 @@ import {
     ShieldCheck,
     Video,
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { dashboard, login, register } from '@/routes';
 
 const features = [
     {

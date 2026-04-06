@@ -1,5 +1,3 @@
-import { index as reportsIndex } from '@/actions/App/Http/Controllers/Web/ReportController';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Head } from '@inertiajs/react';
 import { Activity, BarChart3, Brain, FileText, Users } from 'lucide-react';
 import {
@@ -12,6 +10,8 @@ import {
     XAxis,
     YAxis,
 } from 'recharts';
+import { index as reportsIndex } from '@/actions/App/Http/Controllers/Web/ReportController';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface RiskTrendItem {
     date: string;
@@ -47,12 +47,15 @@ const riskLabelMap: Record<string, string> = {
 
 function buildChartData(riskTrend: RiskTrendItem[]) {
     const byDate: Record<string, Record<string, number>> = {};
+
     for (const item of riskTrend) {
         if (!byDate[item.date]) {
             byDate[item.date] = {};
         }
+
         byDate[item.date][item.risk_level] = item.count;
     }
+
     return Object.entries(byDate)
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([date, levels]) => ({

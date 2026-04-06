@@ -1,3 +1,5 @@
+import { Head, Link } from '@inertiajs/react';
+import { ArrowLeft, Brain, Calendar, Clock, User } from 'lucide-react';
 import { index as consultationsIndex } from '@/actions/App/Http/Controllers/Web/ConsultationController';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -5,8 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import type { Consultation, ConsultationStatus } from '@/types';
-import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Brain, Calendar, Clock, User } from 'lucide-react';
 
 interface Props {
     consultation: Consultation;

@@ -1,3 +1,15 @@
+import { Link, usePage } from '@inertiajs/react';
+import {
+    BarChart3,
+    Bell,
+    CalendarClock,
+    CalendarPlus,
+    FileText,
+    LayoutGrid,
+    Settings,
+    ShieldAlert,
+    Users,
+} from 'lucide-react';
 import { index as adminStats } from '@/actions/App/Http/Controllers/Web/Admin/StatisticsController';
 import { index as adminUsers } from '@/actions/App/Http/Controllers/Web/Admin/UserManagementController';
 import { index as consultationsIndex } from '@/actions/App/Http/Controllers/Web/ConsultationController';
@@ -25,18 +37,6 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
-import { Link, usePage } from '@inertiajs/react';
-import {
-    BarChart3,
-    Bell,
-    CalendarClock,
-    CalendarPlus,
-    FileText,
-    LayoutGrid,
-    Settings,
-    ShieldAlert,
-    Users,
-} from 'lucide-react';
 
 export function AppSidebar() {
     const page = usePage();

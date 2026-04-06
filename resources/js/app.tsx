@@ -1,12 +1,12 @@
+import { createInertiaApp } from '@inertiajs/react';
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { initializeTheme } from '@/hooks/use-appearance';
 import AppLayout from '@/layouts/app-layout';
 import AuthLayout from '@/layouts/auth-layout';
 import SettingsLayout from '@/layouts/settings/layout';
-import { createInertiaApp } from '@inertiajs/react';
-import Echo from 'laravel-echo';
-import Pusher from 'pusher-js';
 
 // Initialize Laravel Echo with Reverb broadcaster (client-side only)
 if (typeof window !== 'undefined') {

@@ -1,11 +1,3 @@
-import {
-    chatLog,
-    index as patientsIndex,
-} from '@/actions/App/Http/Controllers/Web/PatientController';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import type { MentalStatusLog, Patient, SleepLog, WearableData } from '@/types';
 import { Deferred, Head, Link } from '@inertiajs/react';
 import {
     Activity,
@@ -28,6 +20,14 @@ import {
     XAxis,
     YAxis,
 } from 'recharts';
+import {
+    chatLog,
+    index as patientsIndex,
+} from '@/actions/App/Http/Controllers/Web/PatientController';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import type { MentalStatusLog, Patient, SleepLog, WearableData } from '@/types';
 
 interface Props {
     patient: Patient;

@@ -1,3 +1,5 @@
+import { Head, Link } from '@inertiajs/react';
+import { ShieldCheck, Users } from 'lucide-react';
 import { index as adminUsersIndex } from '@/actions/App/Http/Controllers/Web/Admin/UserManagementController';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -11,8 +13,6 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import type { PaginatedResource, UserRole } from '@/types';
-import { Head, Link } from '@inertiajs/react';
-import { ShieldCheck, Users } from 'lucide-react';
 
 interface User {
     uuid: string;
@@ -42,6 +42,7 @@ const roleLabel: Record<UserRole, string> = {
 export default function AdminUsers({ users }: Props) {
     const byRole = users.data.reduce<Record<string, number>>((acc, u) => {
         acc[u.role] = (acc[u.role] ?? 0) + 1;
+
         return acc;
     }, {});
 

@@ -1,3 +1,5 @@
+import { Form, Head } from '@inertiajs/react';
+import { CalendarClock } from 'lucide-react';
 import { store } from '@/actions/App/Http/Controllers/Web/Patient/ConsultationController';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -12,8 +14,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import type { UserProfile } from '@/types';
-import { Form, Head } from '@inertiajs/react';
-import { CalendarClock } from 'lucide-react';
 
 interface Medic {
     uuid: string;
@@ -25,6 +25,10 @@ interface Medic {
 interface Props {
     medics: Medic[];
 }
+
+const minScheduledAt = new Date(Date.now() + 60 * 1000)
+    .toISOString()
+    .slice(0, 16);
 
 export default function PatientConsultationsCreate({ medics }: Props) {
     return (
@@ -88,11 +92,7 @@ export default function PatientConsultationsCreate({ medics }: Props) {
                                             type="datetime-local"
                                             name="scheduled_at"
                                             required
-                                            min={new Date(
-                                                Date.now() + 60 * 1000,
-                                            )
-                                                .toISOString()
-                                                .slice(0, 16)}
+                                            min={minScheduledAt}
                                         />
                                         <InputError
                                             message={errors.scheduled_at}

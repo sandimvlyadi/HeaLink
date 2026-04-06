@@ -1,3 +1,5 @@
+import { Head, Link, router } from '@inertiajs/react';
+import { Bell, BellOff, CheckCheck, Info, TriangleAlert } from 'lucide-react';
 import {
     markAllRead,
     index as notificationsIndex,
@@ -5,8 +7,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import type { AppNotification, PaginatedResource } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
-import { Bell, BellOff, CheckCheck, Info, TriangleAlert } from 'lucide-react';
 
 interface Props {
     notifications: PaginatedResource<AppNotification>;
@@ -78,6 +78,7 @@ export default function NotificationsIndex({
                             <div className="divide-y">
                                 {notifications.data.map((notif) => {
                                     const Icon = typeIcon[notif.type] ?? Bell;
+
                                     return (
                                         <div
                                             key={notif.uuid}

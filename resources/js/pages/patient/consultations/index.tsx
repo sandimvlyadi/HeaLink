@@ -1,3 +1,5 @@
+import { Head, Link, router } from '@inertiajs/react';
+import { Calendar, CalendarPlus, Clock, Stethoscope } from 'lucide-react';
 import {
     cancel,
     create as createConsultation,
@@ -19,8 +21,6 @@ import type {
     ConsultationStatus,
     PaginatedResource,
 } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
-import { Calendar, CalendarPlus, Clock, Stethoscope } from 'lucide-react';
 
 interface Props {
     consultations: PaginatedResource<Consultation>;
@@ -43,7 +43,10 @@ const statusLabel: Record<ConsultationStatus, string> = {
 };
 
 function formatDate(iso: string | null) {
-    if (!iso) return '—';
+    if (!iso) {
+return '—';
+}
+
     return new Date(iso).toLocaleDateString('id-ID', {
         day: 'numeric',
         month: 'short',
@@ -55,7 +58,10 @@ function formatDate(iso: string | null) {
 
 export default function PatientConsultationsIndex({ consultations }: Props) {
     function handleCancel(uuid: string) {
-        if (!confirm('Yakin ingin membatalkan konsultasi ini?')) return;
+        if (!confirm('Yakin ingin membatalkan konsultasi ini?')) {
+return;
+}
+
         router.patch(cancel.url({ consultation: uuid }));
     }
 
