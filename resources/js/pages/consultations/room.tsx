@@ -1,13 +1,27 @@
 import { index as consultationsIndex } from '@/actions/App/Http/Controllers/Web/ConsultationController';
+import ConsultationAnalysis from '@/components/consultation-analysis';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import VideoStream from '@/components/video-stream';
 import type { Consultation, ConsultationStatus } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Brain, Calendar, Clock, User } from 'lucide-react';
+import {
+    ArrowLeft,
+    Brain,
+    Calendar,
+    ChevronDown,
+    Clock,
+    User,
+} from 'lucide-react';
+import { useState } from 'react';
 
 interface Props {
     consultation: Consultation;
@@ -54,6 +68,11 @@ export default function ConsultationRoom({
     const patient = consultation.patient;
     const medic = consultation.medic;
     const risk = patient?.latest_mental_status?.risk_level;
+
+    const defaultOpen = consultation.status !== 'ongoing';
+    const [patientOpen, setPatientOpen] = useState(defaultOpen);
+    const [medicOpen, setMedicOpen] = useState(defaultOpen);
+    const [timestampsOpen, setTimestampsOpen] = useState(defaultOpen);
 
     const riskColors: Record<string, string> = {
         low: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
@@ -113,141 +132,188 @@ export default function ConsultationRoom({
                     {/* Left column — patient + consultation info */}
                     <div className="flex flex-col gap-6 lg:col-span-1">
                         {/* Patient Info */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2 text-base">
-                                    <User className="size-4" />
-                                    Informasi Pasien
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="pt-0">
-                                <div className="flex items-center gap-3 pb-4">
-                                    <div className="flex size-12 items-center justify-center rounded-full bg-muted text-lg font-bold">
-                                        {patient?.name
-                                            ?.charAt(0)
-                                            .toUpperCase() ?? '?'}
-                                    </div>
-                                    <div>
-                                        <p className="font-semibold">
-                                            {patient?.name ?? '—'}
-                                        </p>
-                                        <p className="text-xs text-muted-foreground">
-                                            {patient?.email}
-                                        </p>
-                                    </div>
-                                </div>
-                                <Separator />
-                                <div className="space-y-1 pt-3">
-                                    <InfoRow
-                                        label="Jenis Kelamin"
-                                        value={patient?.profile?.gender}
-                                    />
-                                    <InfoRow
-                                        label="Pekerjaan"
-                                        value={patient?.profile?.job}
-                                    />
-                                    <InfoRow
-                                        label="Telepon"
-                                        value={patient?.profile?.phone}
-                                    />
-                                    <InfoRow
-                                        label="Risiko Mental"
-                                        value={
-                                            risk ? (
-                                                <Badge
-                                                    className={`text-xs ${riskColors[risk]}`}
-                                                >
-                                                    {riskLabel[risk]}
-                                                </Badge>
-                                            ) : (
-                                                '—'
-                                            )
-                                        }
-                                    />
-                                    <InfoRow
-                                        label="Skor Risiko"
-                                        value={
-                                            patient?.latest_mental_status
-                                                ?.risk_score ?? '—'
-                                        }
-                                    />
-                                </div>
-                            </CardContent>
-                        </Card>
+                        <Collapsible
+                            open={patientOpen}
+                            onOpenChange={setPatientOpen}
+                        >
+                            <Card>
+                                <CardHeader>
+                                    <CollapsibleTrigger asChild>
+                                        <button className="flex w-full items-center gap-2 text-left">
+                                            <CardTitle className="flex flex-1 items-center gap-2 text-base">
+                                                <User className="size-4" />
+                                                Informasi Pasien
+                                            </CardTitle>
+                                            <ChevronDown
+                                                className={`size-4 shrink-0 text-muted-foreground transition-transform duration-200 ${patientOpen ? 'rotate-180' : ''}`}
+                                            />
+                                        </button>
+                                    </CollapsibleTrigger>
+                                </CardHeader>
+                                <CollapsibleContent>
+                                    <CardContent className="pt-0">
+                                        <div className="flex items-center gap-3 pb-4">
+                                            <div className="flex size-12 items-center justify-center rounded-full bg-muted text-lg font-bold">
+                                                {patient?.name
+                                                    ?.charAt(0)
+                                                    .toUpperCase() ?? '?'}
+                                            </div>
+                                            <div>
+                                                <p className="font-semibold">
+                                                    {patient?.name ?? '—'}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    {patient?.email}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <Separator />
+                                        <div className="space-y-1 pt-3">
+                                            <InfoRow
+                                                label="Jenis Kelamin"
+                                                value={patient?.profile?.gender}
+                                            />
+                                            <InfoRow
+                                                label="Pekerjaan"
+                                                value={patient?.profile?.job}
+                                            />
+                                            <InfoRow
+                                                label="Telepon"
+                                                value={patient?.profile?.phone}
+                                            />
+                                            <InfoRow
+                                                label="Risiko Mental"
+                                                value={
+                                                    risk ? (
+                                                        <Badge
+                                                            className={`text-xs ${riskColors[risk]}`}
+                                                        >
+                                                            {riskLabel[risk]}
+                                                        </Badge>
+                                                    ) : (
+                                                        '—'
+                                                    )
+                                                }
+                                            />
+                                            <InfoRow
+                                                label="Skor Risiko"
+                                                value={
+                                                    patient
+                                                        ?.latest_mental_status
+                                                        ?.risk_score ?? '—'
+                                                }
+                                            />
+                                        </div>
+                                    </CardContent>
+                                </CollapsibleContent>
+                            </Card>
+                        </Collapsible>
 
                         {/* Medic Info */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2 text-base">
-                                    <Brain className="size-4" />
-                                    Dokter / Terapis
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="pt-0">
-                                <div className="flex items-center gap-3">
-                                    <div className="flex size-10 items-center justify-center rounded-full bg-muted text-sm font-bold">
-                                        {medic?.name?.charAt(0).toUpperCase() ??
-                                            '?'}
-                                    </div>
-                                    <div>
-                                        <p className="font-medium">
-                                            {medic?.name ?? '—'}
-                                        </p>
-                                        <p className="text-xs text-muted-foreground">
-                                            {medic?.email}
-                                        </p>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+                        <Collapsible
+                            open={medicOpen}
+                            onOpenChange={setMedicOpen}
+                        >
+                            <Card>
+                                <CardHeader>
+                                    <CollapsibleTrigger asChild>
+                                        <button className="flex w-full items-center gap-2 text-left">
+                                            <CardTitle className="flex flex-1 items-center gap-2 text-base">
+                                                <Brain className="size-4" />
+                                                Dokter / Terapis
+                                            </CardTitle>
+                                            <ChevronDown
+                                                className={`size-4 shrink-0 text-muted-foreground transition-transform duration-200 ${medicOpen ? 'rotate-180' : ''}`}
+                                            />
+                                        </button>
+                                    </CollapsibleTrigger>
+                                </CardHeader>
+                                <CollapsibleContent>
+                                    <CardContent className="pt-0">
+                                        <div className="flex items-center gap-3">
+                                            <div className="flex size-10 items-center justify-center rounded-full bg-muted text-sm font-bold">
+                                                {medic?.name
+                                                    ?.charAt(0)
+                                                    .toUpperCase() ?? '?'}
+                                            </div>
+                                            <div>
+                                                <p className="font-medium">
+                                                    {medic?.name ?? '—'}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    {medic?.email}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </CollapsibleContent>
+                            </Card>
+                        </Collapsible>
 
                         {/* Timestamps */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2 text-base">
-                                    <Clock className="size-4" />
-                                    Waktu
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-1 pt-0">
-                                <InfoRow
-                                    label="Dijadwalkan"
-                                    value={
-                                        consultation.scheduled_at
-                                            ? new Date(
-                                                  consultation.scheduled_at,
-                                              ).toLocaleString('id-ID')
-                                            : null
-                                    }
-                                />
-                                <InfoRow
-                                    label="Dimulai"
-                                    value={
-                                        consultation.started_at
-                                            ? new Date(
-                                                  consultation.started_at,
-                                              ).toLocaleString('id-ID')
-                                            : null
-                                    }
-                                />
-                                <InfoRow
-                                    label="Berakhir"
-                                    value={
-                                        consultation.ended_at
-                                            ? new Date(
-                                                  consultation.ended_at,
-                                              ).toLocaleString('id-ID')
-                                            : null
-                                    }
-                                />
-                            </CardContent>
-                        </Card>
+                        <Collapsible
+                            open={timestampsOpen}
+                            onOpenChange={setTimestampsOpen}
+                        >
+                            <Card>
+                                <CardHeader>
+                                    <CollapsibleTrigger asChild>
+                                        <button className="flex w-full items-center gap-2 text-left">
+                                            <CardTitle className="flex flex-1 items-center gap-2 text-base">
+                                                <Clock className="size-4" />
+                                                Waktu
+                                            </CardTitle>
+                                            <ChevronDown
+                                                className={`size-4 shrink-0 text-muted-foreground transition-transform duration-200 ${timestampsOpen ? 'rotate-180' : ''}`}
+                                            />
+                                        </button>
+                                    </CollapsibleTrigger>
+                                </CardHeader>
+                                <CollapsibleContent>
+                                    <CardContent className="space-y-1 pt-0">
+                                        <InfoRow
+                                            label="Dijadwalkan"
+                                            value={
+                                                consultation.scheduled_at
+                                                    ? new Date(
+                                                          consultation.scheduled_at,
+                                                      ).toLocaleString('id-ID')
+                                                    : null
+                                            }
+                                        />
+                                        <InfoRow
+                                            label="Dimulai"
+                                            value={
+                                                consultation.started_at
+                                                    ? new Date(
+                                                          consultation.started_at,
+                                                      ).toLocaleString('id-ID')
+                                                    : null
+                                            }
+                                        />
+                                        <InfoRow
+                                            label="Berakhir"
+                                            value={
+                                                consultation.ended_at
+                                                    ? new Date(
+                                                          consultation.ended_at,
+                                                      ).toLocaleString('id-ID')
+                                                    : null
+                                            }
+                                        />
+                                    </CardContent>
+                                </CollapsibleContent>
+                            </Card>
+                        </Collapsible>
+
+                        {/* Emotion Analysis */}
+                        <ConsultationAnalysis status={consultation.status} />
                     </div>
 
                     {/* Right column — video placeholder + notes */}
                     <div className="flex flex-col gap-6 lg:col-span-2">
                         {/* Video call placeholder */}
-                        <Card className="flex-1">
+                        <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2 text-base">
                                     <Calendar className="size-4" />
