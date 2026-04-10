@@ -1,3 +1,4 @@
+import AppLogoIcon from '@/components/app-logo-icon';
 import { Button } from '@/components/ui/button';
 import { dashboard, login, register } from '@/routes';
 import { Head, Link, usePage } from '@inertiajs/react';
@@ -66,8 +67,8 @@ export default function Welcome({
                 <header className="fixed top-0 right-0 left-0 z-50 border-b bg-background/80 backdrop-blur-sm">
                     <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
                         <div className="flex items-center gap-2">
-                            <div className="flex size-8 items-center justify-center rounded-lg bg-primary">
-                                <Brain className="size-4 text-primary-foreground" />
+                            <div className="flex size-8 items-center justify-center rounded-lg">
+                                <AppLogoIcon className="size-8" />
                             </div>
                             <span className="text-lg font-bold tracking-tight">
                                 HeaLink
@@ -312,8 +313,8 @@ export default function Welcome({
                 <footer className="border-t px-6 py-8">
                     <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-sm text-muted-foreground sm:flex-row">
                         <div className="flex items-center gap-2">
-                            <div className="flex size-5 items-center justify-center rounded bg-primary">
-                                <Brain className="size-3 text-primary-foreground" />
+                            <div className="flex size-6 items-center justify-center rounded">
+                                <AppLogoIcon className="size-6" />
                             </div>
                             <span className="font-medium text-foreground">
                                 HeaLink

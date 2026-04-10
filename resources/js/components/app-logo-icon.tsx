@@ -1,6 +1,7 @@
-import { BrainIcon } from 'lucide-react';
-import type { SVGAttributes } from 'react';
+import type { ImgHTMLAttributes } from 'react';
 
-export default function AppLogoIcon(props: SVGAttributes<SVGElement>) {
-    return <BrainIcon {...props} />;
+export default function AppLogoIcon(
+    props: ImgHTMLAttributes<HTMLImageElement>,
+) {
+    return <img src="/apple-touch-icon.png" alt="App Logo" {...props} />;
 }

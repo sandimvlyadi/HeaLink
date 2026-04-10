@@ -15,11 +15,7 @@ docker compose -f docker-compose.prod.yml run --rm --no-deps app php artisan mig
 echo "Swapping containers..."
 docker compose -f docker-compose.prod.yml up -d --remove-orphans
 
-# Step 4: Reload Octane workers to pick up new code and schema (no full restart needed)
-echo "Reloading Octane workers..."
-docker compose -f docker-compose.prod.yml exec -T app php artisan octane:reload
-
-# Step 5: Clean up dangling images from previous builds
+# Step 4: Clean up dangling images from previous builds
 docker image prune -f
 
 echo "✅ Deployment completed successfully!"
