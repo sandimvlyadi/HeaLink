@@ -11,6 +11,9 @@ use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/**
+ * @phpstan-type StreamPayload array{user_id: string, iss: string, sub: string, iat: int, exp: int}
+ */
 class ConsultationController extends Controller
 {
     public function index(): Response
@@ -37,9 +40,44 @@ class ConsultationController extends Controller
     {
         $consultation->load(['patient.profile', 'patient.latestMentalStatus', 'medic']);
 
+        /** @var User $user */
+        $user = auth()->user();
+
         return Inertia::render('consultations/room', [
             'consultation' => (new ConsultationResource($consultation))->resolve(),
+            'stream_api_key' => config('services.getstream.key'),
+            'stream_token' => $this->generateStreamToken($user),
+            'stream_user_id' => $user->uuid,
+            'stream_user_name' => $user->name,
         ]);
+    }
+
+    private function generateStreamToken(User $user): string
+    {
+        $apiKey = config('services.getstream.key');
+        $apiSecret = config('services.getstream.secret');
+
+        $header = $this->base64UrlEncode((string) json_encode(['alg' => 'HS256', 'typ' => 'JWT']));
+        $now = time();
+
+        $payload = $this->base64UrlEncode((string) json_encode([
+            'user_id' => $user->uuid,
+            'iss' => $apiKey,
+            'sub' => "user/{$user->uuid}",
+            'iat' => $now,
+            'exp' => $now + (60 * 60 * 24 * 30),
+        ]));
+
+        $signature = $this->base64UrlEncode(
+            hash_hmac('sha256', "{$header}.{$payload}", $apiSecret, true),
+        );
+
+        return "{$header}.{$payload}.{$signature}";
+    }
+
+    private function base64UrlEncode(string $data): string
+    {
+        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
     }
 
     public function start(Consultation $consultation): RedirectResponse

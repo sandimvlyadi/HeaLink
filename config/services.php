@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'getstream' => [
+        'key' => env('GETSTREAM_API_KEY'),
+        'secret' => env('GETSTREAM_API_SECRET'),
+        'user_id' => env('GETSTREAM_USER_ID'),
+    ],
+
 ];

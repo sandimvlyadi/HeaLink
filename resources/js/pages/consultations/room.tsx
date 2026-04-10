@@ -1,15 +1,20 @@
-import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Brain, Calendar, Clock, User } from 'lucide-react';
 import { index as consultationsIndex } from '@/actions/App/Http/Controllers/Web/ConsultationController';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
+import VideoStream from '@/components/video-stream';
 import type { Consultation, ConsultationStatus } from '@/types';
+import { Head, Link } from '@inertiajs/react';
+import { ArrowLeft, Brain, Calendar, Clock, User } from 'lucide-react';
 
 interface Props {
     consultation: Consultation;
+    stream_api_key: string;
+    stream_token: string;
+    stream_user_id: string;
+    stream_user_name: string;
 }
 
 const statusColors: Record<ConsultationStatus, string> = {
@@ -39,7 +44,13 @@ function InfoRow({ label, value }: { label: string; value: React.ReactNode }) {
     );
 }
 
-export default function ConsultationRoom({ consultation }: Props) {
+export default function ConsultationRoom({
+    consultation,
+    stream_api_key,
+    stream_token,
+    stream_user_id,
+    stream_user_name,
+}: Props) {
     const patient = consultation.patient;
     const medic = consultation.medic;
     const risk = patient?.latest_mental_status?.risk_level;
@@ -244,21 +255,18 @@ export default function ConsultationRoom({ consultation }: Props) {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="flex min-h-[280px] items-center justify-center rounded-lg border-2 border-dashed border-muted bg-muted/20 text-sm text-muted-foreground">
-                                    {consultation.status === 'ongoing' ? (
-                                        <div className="space-y-2 text-center">
-                                            <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
-                                                <div className="size-4 animate-pulse rounded-full bg-blue-500" />
-                                            </div>
-                                            <p className="font-medium text-blue-600 dark:text-blue-400">
-                                                Sesi Berlangsung
-                                            </p>
-                                            <p className="text-xs">
-                                                Integrasi video call akan aktif
-                                                di sini
-                                            </p>
-                                        </div>
-                                    ) : (
+                                {consultation.status === 'ongoing' ? (
+                                    <div className="overflow-hidden rounded-lg">
+                                        <VideoStream
+                                            apiKey={stream_api_key}
+                                            token={stream_token}
+                                            userId={stream_user_id}
+                                            userName={stream_user_name}
+                                            callId={consultation.uuid}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="flex min-h-[280px] items-center justify-center rounded-lg border-2 border-dashed border-muted bg-muted/20 text-sm text-muted-foreground">
                                         <div className="space-y-1 text-center">
                                             <p>Sesi video belum dimulai</p>
                                             <p className="text-xs">
@@ -270,8 +278,8 @@ export default function ConsultationRoom({ consultation }: Props) {
                                                 }
                                             </p>
                                         </div>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
                             </CardContent>
                         </Card>
 
@@ -289,7 +297,9 @@ export default function ConsultationRoom({ consultation }: Props) {
                                     </p>
                                 ) : (
                                     <Textarea
-                                        disabled
+                                        disabled={
+                                            consultation.status !== 'ongoing'
+                                        }
                                         placeholder="Belum ada catatan untuk konsultasi ini"
                                         className="min-h-[100px] resize-none"
                                     />
