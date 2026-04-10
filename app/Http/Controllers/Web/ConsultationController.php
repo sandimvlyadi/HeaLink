@@ -114,7 +114,7 @@ class ConsultationController extends Controller
 
         $consultation->update(['status' => 'cancelled']);
 
-        return to_route('consultations.index');
+        return to_route('consultations.room', $consultation->uuid);
     }
 
     public function complete(Consultation $consultation): RedirectResponse
@@ -134,6 +134,6 @@ class ConsultationController extends Controller
             'ended_at' => now(),
         ]);
 
-        return to_route('consultations.index');
+        return to_route('consultations.room', $consultation->uuid);
     }
 }
