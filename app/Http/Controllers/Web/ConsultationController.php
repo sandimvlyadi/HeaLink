@@ -84,7 +84,7 @@ class ConsultationController extends Controller
     {
         $user = auth()->user();
 
-        if ($consultation->medic_id !== $user->id) {
+        if ($consultation->medic_id !== $user->id && $user->role !== 'admin') {
             abort(403);
         }
 
@@ -121,7 +121,7 @@ class ConsultationController extends Controller
     {
         $user = auth()->user();
 
-        if ($consultation->medic_id !== $user->id) {
+        if ($consultation->medic_id !== $user->id && $user->role !== 'admin') {
             abort(403);
         }
 

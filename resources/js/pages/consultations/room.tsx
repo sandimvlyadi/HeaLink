@@ -1,4 +1,9 @@
-import { index as consultationsIndex } from '@/actions/App/Http/Controllers/Web/ConsultationController';
+import {
+    cancel as consultationCancel,
+    complete as consultationComplete,
+    index as consultationsIndex,
+    start as consultationStart,
+} from '@/actions/App/Http/Controllers/Web/ConsultationController';
 import ConsultationAnalysis from '@/components/consultation-analysis';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -12,14 +17,17 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import VideoStream from '@/components/video-stream';
 import type { Consultation, ConsultationStatus } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
     ArrowLeft,
     Brain,
     Calendar,
+    CheckCircle,
     ChevronDown,
     Clock,
+    PlayCircle,
     User,
+    XCircle,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -65,6 +73,46 @@ export default function ConsultationRoom({
     stream_user_id,
     stream_user_name,
 }: Props) {
+    const page = usePage();
+    const authUser = page.props.auth?.user as {
+        uuid?: string;
+        role?: string;
+    };
+    const isAdmin = authUser?.role === 'admin';
+    const isAssignedMedic =
+        authUser?.role === 'medic' &&
+        authUser?.uuid === consultation.medic?.uuid;
+    const canManageStatus = isAdmin || isAssignedMedic;
+
+    const [processing, setProcessing] = useState(false);
+
+    function handleStart() {
+        setProcessing(true);
+        router.patch(
+            consultationStart({ consultation: consultation.uuid }).url,
+            {},
+            { onFinish: () => setProcessing(false) },
+        );
+    }
+
+    function handleComplete() {
+        setProcessing(true);
+        router.patch(
+            consultationComplete({ consultation: consultation.uuid }).url,
+            {},
+            { onFinish: () => setProcessing(false) },
+        );
+    }
+
+    function handleCancel() {
+        setProcessing(true);
+        router.patch(
+            consultationCancel({ consultation: consultation.uuid }).url,
+            {},
+            { onFinish: () => setProcessing(false) },
+        );
+    }
+
     const patient = consultation.patient;
     const medic = consultation.medic;
     const risk = patient?.latest_mental_status?.risk_level;
@@ -126,6 +174,45 @@ export default function ConsultationRoom({
                                 : 'Belum dijadwalkan'}
                         </p>
                     </div>
+                    {canManageStatus && (
+                        <div className="flex items-center gap-2">
+                            {consultation.status === 'pending' && (
+                                <Button
+                                    size="sm"
+                                    onClick={handleStart}
+                                    disabled={processing}
+                                    className="gap-1.5"
+                                >
+                                    <PlayCircle className="size-4" />
+                                    Mulai
+                                </Button>
+                            )}
+                            {consultation.status === 'ongoing' && (
+                                <Button
+                                    size="sm"
+                                    onClick={handleComplete}
+                                    disabled={processing}
+                                    className="gap-1.5"
+                                >
+                                    <CheckCircle className="size-4" />
+                                    Selesaikan
+                                </Button>
+                            )}
+                            {(consultation.status === 'pending' ||
+                                consultation.status === 'ongoing') && (
+                                <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    onClick={handleCancel}
+                                    disabled={processing}
+                                    className="gap-1.5"
+                                >
+                                    <XCircle className="size-4" />
+                                    Batalkan
+                                </Button>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 <div className="grid gap-6 lg:grid-cols-3">

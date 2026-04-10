@@ -50,6 +50,16 @@ class ConsultationFactory extends Factory
         ]);
     }
 
+    public function ongoing(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status'     => 'ongoing',
+            'started_at' => now()->subMinutes(10),
+            'ended_at'   => null,
+            'notes'      => null,
+        ]);
+    }
+
     public function completed(): static
     {
         return $this->state(function (array $attributes) {

@@ -273,6 +273,7 @@
 
 /* GetStream Video SDK */
 .light .str-video__generic-menu--item,
-.light .str-video__participant-details__name {
+.light .str-video__participant-details__name,
+.light .str-video__notification__message {
     color: var(--background);
 }
