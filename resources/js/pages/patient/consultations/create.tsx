@@ -1,5 +1,3 @@
-import { Form, Head } from '@inertiajs/react';
-import { CalendarClock } from 'lucide-react';
 import { store } from '@/actions/App/Http/Controllers/Web/Patient/ConsultationController';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -14,6 +12,8 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import type { UserProfile } from '@/types';
+import { Form, Head } from '@inertiajs/react';
+import { CalendarClock } from 'lucide-react';
 
 interface Medic {
     uuid: string;

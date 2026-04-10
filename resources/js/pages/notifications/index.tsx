@@ -1,5 +1,3 @@
-import { Head, Link, router } from '@inertiajs/react';
-import { Bell, BellOff, CheckCheck, Info, TriangleAlert } from 'lucide-react';
 import {
     markAllRead,
     index as notificationsIndex,
@@ -7,6 +5,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import type { AppNotification, PaginatedResource } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
+import { Bell, BellOff, CheckCheck, Info, TriangleAlert } from 'lucide-react';
 
 interface Props {
     notifications: PaginatedResource<AppNotification>;

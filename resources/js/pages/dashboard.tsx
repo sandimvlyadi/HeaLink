@@ -1,14 +1,3 @@
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import {
-    Activity,
-    AlertTriangle,
-    CalendarClock,
-    CalendarPlus,
-    CheckCircle2,
-    Clock,
-    TrendingUp,
-    Users,
-} from 'lucide-react';
 import { index as consultationsIndex } from '@/actions/App/Http/Controllers/Web/ConsultationController';
 import {
     create as patientConsultationCreate,
@@ -35,6 +24,17 @@ import type {
     PaginatedResource,
     Patient,
 } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import {
+    Activity,
+    AlertTriangle,
+    CalendarClock,
+    CalendarPlus,
+    CheckCircle2,
+    Clock,
+    TrendingUp,
+    Users,
+} from 'lucide-react';
 
 interface DashboardStats {
     total_patients: number;

@@ -1,5 +1,3 @@
-import { Form } from '@inertiajs/react';
-import { useRef } from 'react';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
@@ -15,6 +13,8 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
+import { Form } from '@inertiajs/react';
+import { useRef } from 'react';
 
 export default function DeleteUser() {
     const passwordInput = useRef<HTMLInputElement>(null);

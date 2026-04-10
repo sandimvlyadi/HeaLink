@@ -1,7 +1,7 @@
-import type Echo from 'laravel-echo';
-import type Pusher from 'pusher-js';
 import type { Auth } from '@/types/auth';
 import type { Team } from '@/types/teams';
+import type Echo from 'laravel-echo';
+import type Pusher from 'pusher-js';
 
 declare global {
     interface Window {

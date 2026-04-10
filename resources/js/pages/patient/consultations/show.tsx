@@ -1,5 +1,3 @@
-import { Head, Link, router } from '@inertiajs/react';
-import { ArrowLeft, Calendar, Clock, Stethoscope } from 'lucide-react';
 import {
     cancel,
     index as consultationsIndex,
@@ -9,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import type { Consultation, ConsultationStatus } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
+import { ArrowLeft, Calendar, Clock, Stethoscope } from 'lucide-react';
 
 interface Props {
     consultation: Consultation;

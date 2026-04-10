@@ -1,3 +1,5 @@
+import { index as reportsIndex } from '@/actions/App/Http/Controllers/Web/ReportController';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Head } from '@inertiajs/react';
 import { Activity, BarChart3, Brain, FileText, Users } from 'lucide-react';
 import {
@@ -10,8 +12,6 @@ import {
     XAxis,
     YAxis,
 } from 'recharts';
-import { index as reportsIndex } from '@/actions/App/Http/Controllers/Web/ReportController';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface RiskTrendItem {
     date: string;

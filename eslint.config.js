@@ -81,6 +81,12 @@ export default [
                         'sibling',
                         'index',
                     ],
+                    pathGroups: [
+                        {
+                            pattern: '@/**',
+                            group: 'external',
+                        },
+                    ],
                     alphabetize: {
                         order: 'asc',
                         caseInsensitive: true,
@@ -98,7 +104,11 @@ export default [
             '@stylistic': stylistic,
         },
         rules: {
-            '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: false }],
+            '@stylistic/brace-style': [
+                'error',
+                '1tbs',
+                { allowSingleLine: false },
+            ],
             '@stylistic/padding-line-between-statements': [
                 'error',
                 ...paddingAroundControl,
@@ -126,7 +136,11 @@ export default [
         },
         rules: {
             curly: ['error', 'all'],
-            '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: false }],
+            '@stylistic/brace-style': [
+                'error',
+                '1tbs',
+                { allowSingleLine: false },
+            ],
         },
     },
 ];

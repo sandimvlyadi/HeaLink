@@ -1,5 +1,3 @@
-import { Head, Link } from '@inertiajs/react';
-import { Eye, Pencil, Plus } from 'lucide-react';
 import CreateTeamModal from '@/components/create-team-modal';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +10,8 @@ import {
 } from '@/components/ui/tooltip';
 import { edit, index } from '@/routes/teams';
 import type { Team } from '@/types';
+import { Head, Link } from '@inertiajs/react';
+import { Eye, Pencil, Plus } from 'lucide-react';
 
 type Props = {
     teams: Team[];

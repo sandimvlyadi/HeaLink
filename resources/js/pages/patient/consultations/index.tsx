@@ -1,5 +1,3 @@
-import { Head, Link, router } from '@inertiajs/react';
-import { Calendar, CalendarPlus, Clock, Stethoscope } from 'lucide-react';
 import {
     cancel,
     create as createConsultation,
@@ -21,6 +19,8 @@ import type {
     ConsultationStatus,
     PaginatedResource,
 } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
+import { Calendar, CalendarPlus, Clock, Stethoscope } from 'lucide-react';
 
 interface Props {
     consultations: PaginatedResource<Consultation>;

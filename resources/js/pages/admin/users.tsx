@@ -1,5 +1,3 @@
-import { Head, Link } from '@inertiajs/react';
-import { ShieldCheck, Users } from 'lucide-react';
 import { index as adminUsersIndex } from '@/actions/App/Http/Controllers/Web/Admin/UserManagementController';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -13,6 +11,8 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import type { PaginatedResource, UserRole } from '@/types';
+import { Head, Link } from '@inertiajs/react';
+import { ShieldCheck, Users } from 'lucide-react';
 
 interface User {
     uuid: string;

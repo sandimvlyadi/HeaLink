@@ -98,6 +98,7 @@ const TRANSCRIPT_POOL = [
 function randomScores(): EmotionScore[] {
     const raw = ALL_EMOTIONS.map((e) => ({ emotion: e, score: Math.random() }));
     const total = raw.reduce((acc, r) => acc + r.score, 0);
+
     return raw
         .map((r) => ({
             emotion: r.emotion,
@@ -119,11 +120,16 @@ function formatNow(): string {
 }
 
 function overallDominant(items: Array<{ dominant: Emotion }>): Emotion | null {
-    if (!items.length) return null;
+    if (!items.length) {
+        return null;
+    }
+
     const counts: Partial<Record<Emotion, number>> = {};
+
     for (const item of items) {
         counts[item.dominant] = (counts[item.dominant] ?? 0) + 1;
     }
+
     return Object.entries(counts).sort(
         (a, b) => (b[1] ?? 0) - (a[1] ?? 0),
     )[0][0] as Emotion;
@@ -450,7 +456,9 @@ export default function ConsultationAnalysis({ status }: Props) {
     const transcriptIdRef = useRef(1);
 
     useEffect(() => {
-        if (status !== 'ongoing') return;
+        if (status !== 'ongoing') {
+            return;
+        }
 
         const captureTimer = setInterval(() => {
             const scores = randomScores();
@@ -504,7 +512,9 @@ export default function ConsultationAnalysis({ status }: Props) {
         };
     }, [status]);
 
-    if (!hasSession) return null;
+    if (!hasSession) {
+        return null;
+    }
 
     const dominantFace = overallDominant(captures);
     const dominantVoice = overallDominant(voiceSegments);

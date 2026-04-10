@@ -1,6 +1,3 @@
-import { Head, Link } from '@inertiajs/react';
-import { MessageCircle, Search, User } from 'lucide-react';
-import { useState } from 'react';
 import {
     chatLog,
     show as patientShow,
@@ -18,6 +15,9 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import type { PaginatedResource, Patient } from '@/types';
+import { Head, Link } from '@inertiajs/react';
+import { MessageCircle, Search, User } from 'lucide-react';
+import { useState } from 'react';
 
 interface Props {
     patients: PaginatedResource<Patient>;

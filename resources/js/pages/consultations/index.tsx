@@ -1,5 +1,3 @@
-import { Head, Link } from '@inertiajs/react';
-import { Calendar, Clock, LogIn, Users } from 'lucide-react';
 import {
     index as consultationsIndex,
     room,
@@ -21,6 +19,8 @@ import type {
     PaginatedResource,
     Patient,
 } from '@/types';
+import { Head, Link } from '@inertiajs/react';
+import { Calendar, Clock, LogIn, Users } from 'lucide-react';
 
 interface Props {
     consultations: PaginatedResource<Consultation>;

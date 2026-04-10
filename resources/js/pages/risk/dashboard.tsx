@@ -1,3 +1,9 @@
+import { show } from '@/actions/App/Http/Controllers/Web/PatientController';
+import { index as riskIndex } from '@/actions/App/Http/Controllers/Web/RiskController';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { Patient, RiskThreshold } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import {
     Activity,
@@ -17,12 +23,6 @@ import {
     XAxis,
     YAxis,
 } from 'recharts';
-import { show } from '@/actions/App/Http/Controllers/Web/PatientController';
-import { index as riskIndex } from '@/actions/App/Http/Controllers/Web/RiskController';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { Patient, RiskThreshold } from '@/types';
 
 interface Props {
     criticalPatients: Patient[];

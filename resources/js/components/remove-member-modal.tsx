@@ -1,5 +1,3 @@
-import { router } from '@inertiajs/react';
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -12,6 +10,8 @@ import {
 } from '@/components/ui/dialog';
 import { destroy as destroyMember } from '@/routes/teams/members';
 import type { Team, TeamMember } from '@/types';
+import { router } from '@inertiajs/react';
+import { useState } from 'react';
 
 type Props = {
     team: Team;

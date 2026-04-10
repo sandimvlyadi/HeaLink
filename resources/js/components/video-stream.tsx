@@ -1,4 +1,5 @@
 import { useAppearance } from '@/hooks/use-appearance';
+import type { User as StreamUser } from '@stream-io/video-react-sdk';
 import {
     CallControls,
     SpeakerLayout,
@@ -6,10 +7,9 @@ import {
     StreamTheme,
     StreamVideo,
     StreamVideoClient,
-    type User as StreamUser,
 } from '@stream-io/video-react-sdk';
 import '@stream-io/video-react-sdk/dist/css/styles.css';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Props {
     apiKey: string;
@@ -19,6 +19,11 @@ interface Props {
     callId: string;
 }
 
+type StreamSession = {
+    client: StreamVideoClient;
+    call: ReturnType<StreamVideoClient['call']>;
+};
+
 export default function VideoStream({
     apiKey,
     token,
@@ -27,23 +32,17 @@ export default function VideoStream({
     callId,
 }: Props) {
     const { resolvedAppearance } = useAppearance();
-    const [isJoined, setIsJoined] = useState(false);
+    const [session, setSession] = useState<StreamSession | null>(null);
     const [error, setError] = useState<string | null>(null);
-
-    const clientRef = useRef<StreamVideoClient | null>(null);
-    const callRef = useRef<ReturnType<StreamVideoClient['call']> | null>(null);
 
     useEffect(() => {
         const user: StreamUser = { id: userId, name: userName ?? '-' };
+        const newClient = new StreamVideoClient({ apiKey, user, token });
+        const newCall = newClient.call('default', callId);
 
-        const client = new StreamVideoClient({ apiKey, user, token });
-        clientRef.current = client;
-
-        const call = client.call('default', callId);
-        callRef.current = call;
-
-        call.join({ create: true })
-            .then(() => setIsJoined(true))
+        newCall
+            .join({ create: true })
+            .then(() => setSession({ client: newClient, call: newCall }))
             .catch((err: unknown) => {
                 setError(
                     err instanceof Error
@@ -53,10 +52,11 @@ export default function VideoStream({
             });
 
         return () => {
-            call.leave().catch(() => {});
-            client.disconnectUser().catch(() => {});
+            newCall.leave().catch(() => {});
+            newClient.disconnectUser().catch(() => {});
+            setSession(null);
         };
-    }, [apiKey, token, userId, callId]);
+    }, [apiKey, token, userId, callId, userName]);
 
     if (error) {
         return (
@@ -66,7 +66,7 @@ export default function VideoStream({
         );
     }
 
-    if (!isJoined || !clientRef.current || !callRef.current) {
+    if (!session) {
         return (
             <div className="flex min-h-[280px] items-center justify-center rounded-lg border-2 border-dashed border-muted bg-muted/20">
                 <div className="space-y-2 text-center text-sm text-muted-foreground">
@@ -82,8 +82,8 @@ export default function VideoStream({
     }
 
     return (
-        <StreamVideo client={clientRef.current}>
-            <StreamCall call={callRef.current}>
+        <StreamVideo client={session.client}>
+            <StreamCall call={session.call}>
                 <StreamTheme className={resolvedAppearance}>
                     <SpeakerLayout />
                     <CallControls />

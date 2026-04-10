@@ -1,3 +1,5 @@
+import { index as adminStatsIndex } from '@/actions/App/Http/Controllers/Web/Admin/StatisticsController';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Head } from '@inertiajs/react';
 import { TrendingUp } from 'lucide-react';
 import {
@@ -15,8 +17,6 @@ import {
     XAxis,
     YAxis,
 } from 'recharts';
-import { index as adminStatsIndex } from '@/actions/App/Http/Controllers/Web/Admin/StatisticsController';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface MonthlyCount {
     month: string;
