@@ -30,14 +30,14 @@ class RiskThreshold extends Model
     protected function casts(): array
     {
         return [
-            'low_min'    => 'decimal:3',
-            'low_max'    => 'decimal:3',
+            'low_min' => 'decimal:3',
+            'low_max' => 'decimal:3',
             'medium_min' => 'decimal:3',
             'medium_max' => 'decimal:3',
-            'high_min'   => 'decimal:3',
-            'high_max'   => 'decimal:3',
-            'weight'     => 'decimal:3',
-            'is_active'  => 'boolean',
+            'high_min' => 'decimal:3',
+            'high_max' => 'decimal:3',
+            'weight' => 'decimal:3',
+            'is_active' => 'boolean',
         ];
     }
 }

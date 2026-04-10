@@ -17,12 +17,12 @@ class SyncVitalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'hrv_score'    => ['required', 'numeric', 'min:0', 'max:200'],
-            'heart_rate'   => ['required', 'integer', 'min:30', 'max:250'],
+            'hrv_score' => ['required', 'numeric', 'min:0', 'max:200'],
+            'heart_rate' => ['required', 'integer', 'min:30', 'max:250'],
             'stress_index' => ['nullable', 'numeric', 'min:0', 'max:100'],
-            'device_type'  => ['nullable', 'string', 'max:50'],
+            'device_type' => ['nullable', 'string', 'max:50'],
             'is_simulated' => ['boolean'],
-            'recorded_at'  => ['nullable', 'date'],
+            'recorded_at' => ['nullable', 'date'],
         ];
     }
 }

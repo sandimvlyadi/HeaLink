@@ -12,10 +12,10 @@ class MoodJournalSeeder extends Seeder
 {
     /** @var array<string, string> */
     private array $moodEmoji = [
-        'very_bad'  => '😢',
-        'bad'       => '😔',
-        'neutral'   => '😐',
-        'good'      => '😊',
+        'very_bad' => '😢',
+        'bad' => '😔',
+        'neutral' => '😐',
+        'good' => '😊',
         'very_good' => '😄',
     ];
 
@@ -27,25 +27,25 @@ class MoodJournalSeeder extends Seeder
      */
     public function run(): void
     {
-        $patients  = User::where('role', 'patient')->pluck('id');
-        $today     = Carbon::today();
-        $chunk     = [];
+        $patients = User::where('role', 'patient')->pluck('id');
+        $today = Carbon::today();
+        $chunk = [];
         $timestamp = now()->toDateTimeString();
 
         foreach ($patients as $userId) {
             for ($day = 29; $day >= 0; $day--) {
                 $journalDate = $today->copy()->subDays($day)->toDateString();
-                $mood        = $this->moods[array_rand($this->moods)];
+                $mood = $this->moods[array_rand($this->moods)];
 
                 $chunk[] = [
-                    'uuid'         => Str::uuid(),
-                    'user_id'      => $userId,
-                    'emoji'        => $this->moodEmoji[$mood],
-                    'mood'         => $mood,
-                    'note'         => mt_rand(0, 10) > 3 ? null : 'Catatan singkat untuk hari ini.',
+                    'uuid' => Str::uuid(),
+                    'user_id' => $userId,
+                    'emoji' => $this->moodEmoji[$mood],
+                    'mood' => $mood,
+                    'note' => mt_rand(0, 10) > 3 ? null : 'Catatan singkat untuk hari ini.',
                     'journal_date' => $journalDate,
-                    'created_at'   => $timestamp,
-                    'updated_at'   => $timestamp,
+                    'created_at' => $timestamp,
+                    'updated_at' => $timestamp,
                 ];
             }
         }
@@ -55,4 +55,3 @@ class MoodJournalSeeder extends Seeder
         }
     }
 }
-

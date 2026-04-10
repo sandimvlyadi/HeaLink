@@ -54,22 +54,22 @@ class ChatHistoryFactory extends Factory
         }
 
         return [
-            'user_id'          => User::factory(),
-            'message'          => $message,
-            'sender_type'      => $senderType,
-            'sentiment_score'  => $sentimentScore,
+            'user_id' => User::factory(),
+            'message' => $message,
+            'sender_type' => $senderType,
+            'sentiment_score' => $sentimentScore,
             'detected_emotion' => fake()->optional(0.7)->randomElement([
                 'calm', 'anxious', 'sad', 'angry', 'neutral', 'happy',
             ]),
             'context_data' => null,
-            'is_flagged'   => fake()->boolean(5), // 5% chance flagged
+            'is_flagged' => fake()->boolean(5), // 5% chance flagged
         ];
     }
 
     public function fromUser(): static
     {
         return $this->state(fn (array $attributes) => [
-            'sender_type'     => 'user',
+            'sender_type' => 'user',
             'sentiment_score' => round(fake()->randomFloat(3, -1.0, 1.0), 3),
         ]);
     }
@@ -77,7 +77,7 @@ class ChatHistoryFactory extends Factory
     public function fromAi(): static
     {
         return $this->state(fn (array $attributes) => [
-            'sender_type'     => 'ai',
+            'sender_type' => 'ai',
             'sentiment_score' => null,
         ]);
     }
@@ -85,7 +85,7 @@ class ChatHistoryFactory extends Factory
     public function negative(): static
     {
         return $this->state(fn (array $attributes) => [
-            'sender_type'     => 'user',
+            'sender_type' => 'user',
             'sentiment_score' => round(fake()->randomFloat(3, -1.0, -0.3), 3),
             'detected_emotion' => fake()->randomElement(['sad', 'anxious', 'angry']),
         ]);

@@ -58,9 +58,9 @@ it('persists wearable data to the database', function () {
     $service->generateForUser($user);
 
     $this->assertDatabaseHas('wearable_data', [
-        'user_id'      => $user->id,
+        'user_id' => $user->id,
         'is_simulated' => true,
-        'device_type'  => 'Simulated',
+        'device_type' => 'Simulated',
     ]);
 });
 
@@ -86,4 +86,3 @@ it('bulk records are in chronological order', function () {
     expect($timestamps[0])->toBeLessThan($timestamps[1])
         ->and($timestamps[1])->toBeLessThan($timestamps[2]);
 });
-

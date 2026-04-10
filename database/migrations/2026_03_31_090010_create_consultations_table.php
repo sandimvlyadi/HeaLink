@@ -17,9 +17,9 @@ return new class extends Migration
             $table->foreignId('patient_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('medic_id')->constrained('users')->cascadeOnDelete();
             $table->string('session_token', 128)->unique()
-                  ->comment('Token untuk join video call (Agora/Jitsi/Livekit)');
+                ->comment('Token untuk join video call (Agora/Jitsi/Livekit)');
             $table->string('status', 20)->default('pending')
-                  ->comment("'pending'|'ongoing'|'completed'|'cancelled'");
+                ->comment("'pending'|'ongoing'|'completed'|'cancelled'");
             $table->timestampTz('scheduled_at')->nullable();
             $table->timestampTz('started_at')->nullable();
             $table->timestampTz('ended_at')->nullable();

@@ -25,38 +25,38 @@ class ConsultationFactory extends Factory
         }
 
         if ($status === 'completed') {
-            $endedAt = (clone $startedAt)->modify('+' . fake()->numberBetween(15, 60) . ' minutes');
+            $endedAt = (clone $startedAt)->modify('+'.fake()->numberBetween(15, 60).' minutes');
         }
 
         return [
-            'patient_id'    => User::factory()->patient(),
-            'medic_id'      => User::factory()->medic(),
+            'patient_id' => User::factory()->patient(),
+            'medic_id' => User::factory()->medic(),
             'session_token' => Str::random(128),
-            'status'        => $status,
-            'scheduled_at'  => $scheduledAt,
-            'started_at'    => $startedAt,
-            'ended_at'      => $endedAt,
-            'notes'         => $status === 'completed' ? fake()->paragraph() : null,
+            'status' => $status,
+            'scheduled_at' => $scheduledAt,
+            'started_at' => $startedAt,
+            'ended_at' => $endedAt,
+            'notes' => $status === 'completed' ? fake()->paragraph() : null,
         ];
     }
 
     public function pending(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status'      => 'pending',
-            'started_at'  => null,
-            'ended_at'    => null,
-            'notes'       => null,
+            'status' => 'pending',
+            'started_at' => null,
+            'ended_at' => null,
+            'notes' => null,
         ]);
     }
 
     public function ongoing(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status'     => 'ongoing',
+            'status' => 'ongoing',
             'started_at' => now()->subMinutes(10),
-            'ended_at'   => null,
-            'notes'      => null,
+            'ended_at' => null,
+            'notes' => null,
         ]);
     }
 
@@ -65,14 +65,14 @@ class ConsultationFactory extends Factory
         return $this->state(function (array $attributes) {
             $scheduled = fake()->dateTimeBetween('-30 days', '-1 day');
             $started = $scheduled;
-            $ended = (clone $started)->modify('+' . fake()->numberBetween(20, 60) . ' minutes');
+            $ended = (clone $started)->modify('+'.fake()->numberBetween(20, 60).' minutes');
 
             return [
-                'status'       => 'completed',
+                'status' => 'completed',
                 'scheduled_at' => $scheduled,
-                'started_at'   => $started,
-                'ended_at'     => $ended,
-                'notes'        => fake()->paragraph(),
+                'started_at' => $started,
+                'ended_at' => $ended,
+                'notes' => fake()->paragraph(),
             ];
         });
     }

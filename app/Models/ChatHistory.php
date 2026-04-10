@@ -28,8 +28,8 @@ class ChatHistory extends Model
     {
         return [
             'sentiment_score' => 'decimal:3',
-            'context_data'    => 'array',
-            'is_flagged'      => 'boolean',
+            'context_data' => 'array',
+            'is_flagged' => 'boolean',
         ];
     }
 

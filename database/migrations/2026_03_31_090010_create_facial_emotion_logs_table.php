@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('detected_mood', 50);
             $table->decimal('confidence', 4, 3)->nullable()->comment('0.000–1.000');
             $table->jsonb('emotion_breakdown')->nullable()
-                  ->comment('{"happy": 0.1, "sad": 0.6, "anxious": 0.3}');
+                ->comment('{"happy": 0.1, "sad": 0.6, "anxious": 0.3}');
             $table->timestampTz('captured_at');
             $table->timestamps();
 

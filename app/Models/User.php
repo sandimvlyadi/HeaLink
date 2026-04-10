@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Concerns\HasTeams;
 use App\Traits\HasPublicId;
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -54,9 +55,9 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at'       => 'datetime',
-            'is_active'               => 'boolean',
-            'password'                => 'hashed',
+            'email_verified_at' => 'datetime',
+            'is_active' => 'boolean',
+            'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
         ];
     }
@@ -144,17 +145,17 @@ class User extends Authenticatable
     // =========================================================================
 
     /**
-     * @param  \Illuminate\Database\Eloquent\Builder<User>  $query
+     * @param  Builder<User>  $query
      */
-    public function scopeActive(\Illuminate\Database\Eloquent\Builder $query): void
+    public function scopeActive(Builder $query): void
     {
         $query->where('is_active', true);
     }
 
     /**
-     * @param  \Illuminate\Database\Eloquent\Builder<User>  $query
+     * @param  Builder<User>  $query
      */
-    public function scopeByRole(\Illuminate\Database\Eloquent\Builder $query, string $role): void
+    public function scopeByRole(Builder $query, string $role): void
     {
         $query->where('role', $role);
     }

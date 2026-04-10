@@ -41,10 +41,10 @@ class ProcessVoiceAnalysisJob implements ShouldQueue
         $result = $aiProvider->analyzeVoice($absolutePath);
 
         $this->voiceAnalysis->update([
-            'stress_level'     => $result['stress_level'],
+            'stress_level' => $result['stress_level'],
             'detected_emotion' => $result['detected_emotion'],
             'confidence_score' => $result['confidence_score'],
-            'raw_analysis'     => $result['raw_analysis'],
+            'raw_analysis' => $result['raw_analysis'],
         ]);
 
         // Re-calculate risk score to incorporate latest voice analysis data
@@ -56,4 +56,3 @@ class ProcessVoiceAnalysisJob implements ShouldQueue
         report($exception);
     }
 }
-

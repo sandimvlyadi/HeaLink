@@ -55,8 +55,8 @@ class AnalyzeChatSentimentJob implements ShouldQueue
 
         // Gather context snapshot at message time
         $context = [
-            'hrv'         => $user->latestWearable?->hrv_score,
-            'heart_rate'  => $user->latestWearable?->heart_rate,
+            'hrv' => $user->latestWearable?->hrv_score,
+            'heart_rate' => $user->latestWearable?->heart_rate,
             'stress_index' => $user->latestWearable?->stress_index,
         ];
 
@@ -64,17 +64,17 @@ class AnalyzeChatSentimentJob implements ShouldQueue
 
         // Update the user message with analysis results
         $this->chatHistory->update([
-            'sentiment_score'  => $result['sentiment_score'],
+            'sentiment_score' => $result['sentiment_score'],
             'detected_emotion' => $result['detected_emotion'],
-            'context_data'     => $context,
+            'context_data' => $context,
         ]);
 
         // Update the corresponding AI reply with the AI-generated response
         ChatHistory::create([
-            'user_id'          => $user->id,
-            'message'          => $result['ai_reply'],
-            'sender_type'      => 'ai',
-            'sentiment_score'  => null,
+            'user_id' => $user->id,
+            'message' => $result['ai_reply'],
+            'sender_type' => 'ai',
+            'sentiment_score' => null,
             'detected_emotion' => null,
         ]);
 
@@ -95,4 +95,3 @@ class AnalyzeChatSentimentJob implements ShouldQueue
         report($exception);
     }
 }
-

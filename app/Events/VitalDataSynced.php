@@ -20,4 +20,3 @@ class VitalDataSynced
         public readonly WearableData $wearableData,
     ) {}
 }
-

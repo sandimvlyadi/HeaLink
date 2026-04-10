@@ -18,11 +18,11 @@ class MentalStatusLogFactory extends Factory
             $riskScore >= 81 => 'critical',
             $riskScore >= 61 => 'high',
             $riskScore >= 31 => 'medium',
-            default          => 'low',
+            default => 'low',
         };
 
         return [
-            'user_id'    => User::factory(),
+            'user_id' => User::factory(),
             'risk_level' => $riskLevel,
             'risk_score' => $riskScore,
             'detected_emotion' => fake()->optional(0.8)->randomElement([
@@ -30,10 +30,10 @@ class MentalStatusLogFactory extends Factory
             ]),
             'summary_note' => fake()->optional(0.6)->sentence(),
             'contributing_factors' => [
-                'hrv'       => fake()->randomFloat(2, 0, 1),
-                'sleep'     => fake()->randomFloat(2, 0, 1),
+                'hrv' => fake()->randomFloat(2, 0, 1),
+                'sleep' => fake()->randomFloat(2, 0, 1),
                 'sentiment' => fake()->randomFloat(3, -1, 0),
-                'phq9'      => fake()->randomFloat(2, 0, 1),
+                'phq9' => fake()->randomFloat(2, 0, 1),
             ],
         ];
     }

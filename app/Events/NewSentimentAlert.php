@@ -22,4 +22,3 @@ class NewSentimentAlert
         public readonly array $analysisResult,
     ) {}
 }
-

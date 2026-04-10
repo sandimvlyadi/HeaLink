@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Consultation;
 use App\Models\MentalStatusLog;
 use App\Models\User;
-use App\Models\WearableData;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -40,10 +39,10 @@ class StatisticsController extends Controller
             ->get();
 
         return Inertia::render('admin/statistics', [
-            'usersByRole'           => $usersByRole,
+            'usersByRole' => $usersByRole,
             'consultationsByStatus' => $consultationsByStatus,
-            'riskByLevel'           => $riskByLevel,
-            'newPatientsPerMonth'   => $newPatientsPerMonth,
+            'riskByLevel' => $riskByLevel,
+            'newPatientsPerMonth' => $newPatientsPerMonth,
         ]);
     }
 }

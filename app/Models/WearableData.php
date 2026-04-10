@@ -27,11 +27,11 @@ class WearableData extends Model
     protected function casts(): array
     {
         return [
-            'hrv_score'    => 'decimal:2',
+            'hrv_score' => 'decimal:2',
             'stress_index' => 'decimal:2',
-            'heart_rate'   => 'integer',
+            'heart_rate' => 'integer',
             'is_simulated' => 'boolean',
-            'recorded_at'  => 'datetime',
+            'recorded_at' => 'datetime',
         ];
     }
 

@@ -54,12 +54,12 @@ it('maps score 100 to critical risk level', function () {
 it('scores a value in the low band between 0 and 25', function () {
     // hrv threshold: low=60-100, medium=40-59.999, high=15-39.999
     $threshold = new RiskThreshold([
-        'low_min'    => 60.0,
-        'low_max'    => 100.0,
+        'low_min' => 60.0,
+        'low_max' => 100.0,
         'medium_min' => 40.0,
         'medium_max' => 59.999,
-        'high_min'   => 15.0,
-        'high_max'   => 39.999,
+        'high_min' => 15.0,
+        'high_max' => 39.999,
     ]);
 
     $score = $this->service->scoreForFactor(80.0, $threshold);
@@ -69,12 +69,12 @@ it('scores a value in the low band between 0 and 25', function () {
 
 it('scores a value in the medium band between 26 and 65', function () {
     $threshold = new RiskThreshold([
-        'low_min'    => 60.0,
-        'low_max'    => 100.0,
+        'low_min' => 60.0,
+        'low_max' => 100.0,
         'medium_min' => 40.0,
         'medium_max' => 59.999,
-        'high_min'   => 15.0,
-        'high_max'   => 39.999,
+        'high_min' => 15.0,
+        'high_max' => 39.999,
     ]);
 
     $score = $this->service->scoreForFactor(50.0, $threshold);
@@ -84,12 +84,12 @@ it('scores a value in the medium band between 26 and 65', function () {
 
 it('scores a value in the high band between 66 and 100', function () {
     $threshold = new RiskThreshold([
-        'low_min'    => 60.0,
-        'low_max'    => 100.0,
+        'low_min' => 60.0,
+        'low_max' => 100.0,
         'medium_min' => 40.0,
         'medium_max' => 59.999,
-        'high_min'   => 15.0,
-        'high_max'   => 39.999,
+        'high_min' => 15.0,
+        'high_max' => 39.999,
     ]);
 
     $score = $this->service->scoreForFactor(25.0, $threshold);
@@ -99,12 +99,12 @@ it('scores a value in the high band between 66 and 100', function () {
 
 it('returns 100 for a value below all defined ranges (worst risk)', function () {
     $threshold = new RiskThreshold([
-        'low_min'    => 60.0,
-        'low_max'    => 100.0,
+        'low_min' => 60.0,
+        'low_max' => 100.0,
         'medium_min' => 40.0,
         'medium_max' => 59.999,
-        'high_min'   => 15.0,
-        'high_max'   => 39.999,
+        'high_min' => 15.0,
+        'high_max' => 39.999,
     ]);
 
     // Value of 5 is below high_min (15) — worst case
@@ -122,11 +122,11 @@ it('returns 0 when no factors are available', function () {
     $thresholds = new Collection;
 
     $score = $this->service->computeWeightedScore([
-        'hrv'            => null,
+        'hrv' => null,
         'sleep_duration' => null,
-        'sentiment'      => null,
-        'phq9'           => null,
-        'stress_index'   => null,
+        'sentiment' => null,
+        'phq9' => null,
+        'stress_index' => null,
     ], $thresholds);
 
     expect($score)->toBe(0.0);
@@ -135,25 +135,25 @@ it('returns 0 when no factors are available', function () {
 it('computes weighted score correctly with partial factors', function () {
     $hrvThreshold = new RiskThreshold([
         'parameter_name' => 'hrv',
-        'low_min'        => 60.0,
-        'low_max'        => 100.0,
-        'medium_min'     => 40.0,
-        'medium_max'     => 59.999,
-        'high_min'       => 15.0,
-        'high_max'       => 39.999,
-        'weight'         => 0.3,
+        'low_min' => 60.0,
+        'low_max' => 100.0,
+        'medium_min' => 40.0,
+        'medium_max' => 59.999,
+        'high_min' => 15.0,
+        'high_max' => 39.999,
+        'weight' => 0.3,
     ]);
     $hrvThreshold->parameter_name = 'hrv';
 
     $phq9Threshold = new RiskThreshold([
         'parameter_name' => 'phq9_score',
-        'low_min'        => 0.0,
-        'low_max'        => 9.0,
-        'medium_min'     => 10.0,
-        'medium_max'     => 19.0,
-        'high_min'       => 20.0,
-        'high_max'       => 27.0,
-        'weight'         => 0.15,
+        'low_min' => 0.0,
+        'low_max' => 9.0,
+        'medium_min' => 10.0,
+        'medium_max' => 19.0,
+        'high_min' => 20.0,
+        'high_max' => 27.0,
+        'weight' => 0.15,
     ]);
     $phq9Threshold->parameter_name = 'phq9_score';
 
@@ -163,11 +163,11 @@ it('computes weighted score correctly with partial factors', function () {
     // hrv=80 (low band) — low risk score
     // phq9=25 (high band) — high risk score
     $score = $this->service->computeWeightedScore([
-        'hrv'            => 80.0,
+        'hrv' => 80.0,
         'sleep_duration' => null,
-        'sentiment'      => null,
-        'phq9'           => 25,
-        'stress_index'   => null,
+        'sentiment' => null,
+        'phq9' => 25,
+        'stress_index' => null,
     ], $thresholds);
 
     expect($score)->toBeGreaterThan(0.0)->toBeLessThanOrEqual(100.0);
@@ -176,23 +176,22 @@ it('computes weighted score correctly with partial factors', function () {
 it('normalizes score correctly when only one factor is available', function () {
     $hrvThreshold = new RiskThreshold([
         'parameter_name' => 'hrv',
-        'low_min'        => 60.0,
-        'low_max'        => 100.0,
-        'medium_min'     => 40.0,
-        'medium_max'     => 59.999,
-        'high_min'       => 15.0,
-        'high_max'       => 39.999,
-        'weight'         => 0.3,
+        'low_min' => 60.0,
+        'low_max' => 100.0,
+        'medium_min' => 40.0,
+        'medium_max' => 59.999,
+        'high_min' => 15.0,
+        'high_max' => 39.999,
+        'weight' => 0.3,
     ]);
 
     /** @var Collection<string, RiskThreshold> $thresholds */
     $thresholds = new Collection(['hrv' => $hrvThreshold]);
 
     $score = $this->service->computeWeightedScore([
-        'hrv'  => 80.0,  // low band — should produce low score
+        'hrv' => 80.0,  // low band — should produce low score
         'phq9' => null,
     ], $thresholds);
 
     expect($score)->toBeGreaterThanOrEqual(0.0)->toBeLessThanOrEqual(25.0);
 });
-

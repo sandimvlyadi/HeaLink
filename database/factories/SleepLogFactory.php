@@ -18,7 +18,7 @@ class SleepLogFactory extends Factory
         $qualityCategory = match (true) {
             $qualityScore >= 7.0 => 'good',
             $qualityScore >= 5.0 => 'fair',
-            default              => 'poor',
+            default => 'poor',
         };
 
         $sleepHour = fake()->numberBetween(21, 24); // 21:00 - 00:00
@@ -27,20 +27,20 @@ class SleepLogFactory extends Factory
         $wakeMinute = fake()->numberBetween(0, 59);
 
         return [
-            'user_id'          => User::factory(),
+            'user_id' => User::factory(),
             'duration_minutes' => $durationMinutes,
-            'quality_score'    => $qualityScore,
+            'quality_score' => $qualityScore,
             'quality_category' => $qualityCategory,
-            'sleep_time'       => sprintf('%02d:%02d:00', $sleepHour % 24, $sleepMinute),
-            'wake_time'        => sprintf('%02d:%02d:00', $wakeHour, $wakeMinute),
-            'sleep_date'       => fake()->unique()->dateTimeBetween('-30 days', 'now')->format('Y-m-d'),
+            'sleep_time' => sprintf('%02d:%02d:00', $sleepHour % 24, $sleepMinute),
+            'wake_time' => sprintf('%02d:%02d:00', $wakeHour, $wakeMinute),
+            'sleep_date' => fake()->unique()->dateTimeBetween('-30 days', 'now')->format('Y-m-d'),
         ];
     }
 
     public function poor(): static
     {
         return $this->state(fn (array $attributes) => [
-            'quality_score'    => fake()->randomFloat(2, 1.0, 4.9),
+            'quality_score' => fake()->randomFloat(2, 1.0, 4.9),
             'quality_category' => 'poor',
             'duration_minutes' => fake()->numberBetween(120, 300),
         ]);

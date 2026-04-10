@@ -17,13 +17,13 @@ class WearableDataFactory extends Factory
         $heartRate = (int) (75 - ($hrv * 0.3) + fake()->numberBetween(-5, 5));
 
         return [
-            'user_id'      => User::factory(),
-            'hrv_score'    => round($hrv, 2),
-            'heart_rate'   => max(50, min(110, $heartRate)),
+            'user_id' => User::factory(),
+            'hrv_score' => round($hrv, 2),
+            'heart_rate' => max(50, min(110, $heartRate)),
             'stress_index' => round(100 - $hrv, 2),
-            'device_type'  => fake()->randomElement(['Garmin', 'Apple Watch', 'Simulated', 'Fitbit']),
+            'device_type' => fake()->randomElement(['Garmin', 'Apple Watch', 'Simulated', 'Fitbit']),
             'is_simulated' => true,
-            'recorded_at'  => fake()->dateTimeBetween('-30 days', 'now'),
+            'recorded_at' => fake()->dateTimeBetween('-30 days', 'now'),
         ];
     }
 

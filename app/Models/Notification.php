@@ -27,7 +27,7 @@ class Notification extends Model
     protected function casts(): array
     {
         return [
-            'is_read'     => 'boolean',
+            'is_read' => 'boolean',
             'action_data' => 'array',
         ];
     }

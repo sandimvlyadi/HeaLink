@@ -39,7 +39,7 @@ it('marks a notification as read', function () {
         ->assertJsonPath('data.is_read', true);
 
     $this->assertDatabaseHas('notifications', [
-        'id'      => $notification->id,
+        'id' => $notification->id,
         'is_read' => true,
     ]);
 });

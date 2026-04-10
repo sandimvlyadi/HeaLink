@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('parameter_name', 50)->unique()
-                  ->comment('hrv | sleep_duration | sentiment_score | phq9_score | stress_index');
+                ->comment('hrv | sleep_duration | sentiment_score | phq9_score | stress_index');
             $table->decimal('low_min', 8, 3)->nullable();
             $table->decimal('low_max', 8, 3)->nullable();
             $table->decimal('medium_min', 8, 3)->nullable();
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('high_min', 8, 3)->nullable();
             $table->decimal('high_max', 8, 3)->nullable();
             $table->decimal('weight', 4, 3)->default(0.25)
-                  ->comment('Bobot parameter dalam kalkulasi risk score (total harus = 1.0)');
+                ->comment('Bobot parameter dalam kalkulasi risk score (total harus = 1.0)');
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();

@@ -10,9 +10,9 @@ it('stores a mood journal entry', function () {
     Sanctum::actingAs($user);
 
     $response = $this->postJson('/api/v1/mood', [
-        'emoji'        => '😊',
-        'mood'         => 'good',
-        'note'         => 'Hari yang menyenangkan',
+        'emoji' => '😊',
+        'mood' => 'good',
+        'note' => 'Hari yang menyenangkan',
         'journal_date' => now()->toDateString(),
     ]);
 
@@ -22,7 +22,7 @@ it('stores a mood journal entry', function () {
 
     $this->assertDatabaseHas('mood_journals', [
         'user_id' => $user->id,
-        'mood'    => 'good',
+        'mood' => 'good',
     ]);
 });
 
@@ -33,7 +33,7 @@ it('updates existing mood journal for same date', function () {
     Sanctum::actingAs($user);
 
     $this->postJson('/api/v1/mood', [
-        'mood'         => 'very_good',
+        'mood' => 'very_good',
         'journal_date' => $date,
     ])->assertOk()
         ->assertJsonPath('data.mood', 'very_good');
@@ -46,7 +46,7 @@ it('validates mood is in allowed values', function () {
     Sanctum::actingAs($user);
 
     $this->postJson('/api/v1/mood', [
-        'mood'         => 'excellent',
+        'mood' => 'excellent',
         'journal_date' => now()->toDateString(),
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['mood']);

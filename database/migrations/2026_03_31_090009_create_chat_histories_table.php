@@ -19,12 +19,12 @@ return new class extends Migration
             $table->text('message');
             $table->string('sender_type', 10)->comment("'user' atau 'ai'");
             $table->decimal('sentiment_score', 4, 3)->nullable()
-                  ->comment('-1.000 (sangat negatif) s.d. 1.000 (sangat positif)');
+                ->comment('-1.000 (sangat negatif) s.d. 1.000 (sangat positif)');
             $table->string('detected_emotion', 50)->nullable();
             $table->jsonb('context_data')->nullable()
-                  ->comment('Snapshot HRV, mood, dll saat pesan dikirim');
+                ->comment('Snapshot HRV, mood, dll saat pesan dikirim');
             $table->boolean('is_flagged')->default(false)
-                  ->comment('Ditandai oleh dokter untuk review');
+                ->comment('Ditandai oleh dokter untuk review');
             $table->timestamps();
 
             // Indexes

@@ -41,4 +41,3 @@ class GenerateDailyRiskReportJob implements ShouldQueue
         report($exception);
     }
 }
-

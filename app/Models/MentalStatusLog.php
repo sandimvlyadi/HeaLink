@@ -27,7 +27,7 @@ class MentalStatusLog extends Model
     {
         return [
             'contributing_factors' => 'array',
-            'risk_score'           => 'decimal:2',
+            'risk_score' => 'decimal:2',
         ];
     }
 

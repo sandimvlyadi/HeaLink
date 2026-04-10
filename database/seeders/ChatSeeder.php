@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\ChatHistory;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -48,16 +47,16 @@ class ChatSeeder extends Seeder
      */
     public function run(): void
     {
-        $patients  = User::where('role', 'patient')->pluck('id');
-        $chunk     = [];
+        $patients = User::where('role', 'patient')->pluck('id');
+        $chunk = [];
         $timestamp = now()->toDateTimeString();
 
         foreach ($patients as $userId) {
-            $total      = mt_rand(10, 20);
+            $total = mt_rand(10, 20);
             $senderType = 'user'; // Start with user message
 
             for ($i = 0; $i < $total; $i++) {
-                $message        = $senderType === 'user'
+                $message = $senderType === 'user'
                     ? $this->userMessages[array_rand($this->userMessages)]
                     : $this->aiMessages[array_rand($this->aiMessages)];
                 $sentimentScore = $senderType === 'user'
@@ -68,16 +67,16 @@ class ChatSeeder extends Seeder
                     : null;
 
                 $chunk[] = [
-                    'uuid'             => Str::uuid(),
-                    'user_id'          => $userId,
-                    'message'          => $message,
-                    'sender_type'      => $senderType,
-                    'sentiment_score'  => $sentimentScore,
+                    'uuid' => Str::uuid(),
+                    'user_id' => $userId,
+                    'message' => $message,
+                    'sender_type' => $senderType,
+                    'sentiment_score' => $sentimentScore,
                     'detected_emotion' => $detectedEmotion,
-                    'context_data'     => null,
-                    'is_flagged'       => false,
-                    'created_at'       => now()->subDays(mt_rand(0, 29))->subMinutes(mt_rand(0, 1440))->toDateTimeString(),
-                    'updated_at'       => $timestamp,
+                    'context_data' => null,
+                    'is_flagged' => false,
+                    'created_at' => now()->subDays(mt_rand(0, 29))->subMinutes(mt_rand(0, 1440))->toDateTimeString(),
+                    'updated_at' => $timestamp,
                 ];
 
                 // Alternate sender
@@ -90,4 +89,3 @@ class ChatSeeder extends Seeder
         }
     }
 }
-

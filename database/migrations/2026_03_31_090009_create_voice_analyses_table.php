@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('audio_path')->comment('Path di Laravel Storage');
             $table->decimal('stress_level', 5, 2)->nullable()->comment('0–100');
             $table->string('detected_emotion', 50)->nullable()
-                  ->comment('calm, anxious, sad, angry, neutral');
+                ->comment('calm, anxious, sad, angry, neutral');
             $table->decimal('confidence_score', 4, 3)->nullable()->comment('0.000–1.000');
             $table->jsonb('raw_analysis')->nullable()
-                  ->comment('Full payload dari AI service (OpenAI/Gemini)');
+                ->comment('Full payload dari AI service (OpenAI/Gemini)');
             $table->timestamps();
             $table->softDeletes();
 

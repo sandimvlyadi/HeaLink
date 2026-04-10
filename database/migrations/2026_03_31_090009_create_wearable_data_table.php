@@ -16,13 +16,13 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->decimal('hrv_score', 6, 2)->nullable()
-                  ->comment('Heart Rate Variability dalam ms');
+                ->comment('Heart Rate Variability dalam ms');
             $table->smallInteger('heart_rate')->nullable()
-                  ->comment('BPM');
+                ->comment('BPM');
             $table->decimal('stress_index', 5, 2)->nullable()
-                  ->comment('0–100, derived dari HRV');
+                ->comment('0–100, derived dari HRV');
             $table->string('device_type', 50)->nullable()
-                  ->comment('e.g. Garmin, Apple Watch, Simulated');
+                ->comment('e.g. Garmin, Apple Watch, Simulated');
             $table->boolean('is_simulated')->default(false);
             $table->timestampTz('recorded_at'); // timezone-aware
             $table->timestamps();

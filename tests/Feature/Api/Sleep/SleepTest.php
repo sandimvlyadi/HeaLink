@@ -11,11 +11,11 @@ it('stores a sleep log', function () {
 
     $response = $this->postJson('/api/v1/sleep', [
         'duration_minutes' => 480,
-        'quality_score'    => 7.5,
+        'quality_score' => 7.5,
         'quality_category' => 'good',
-        'sleep_time'       => '22:30:00',
-        'wake_time'        => '06:30:00',
-        'sleep_date'       => now()->toDateString(),
+        'sleep_time' => '22:30:00',
+        'wake_time' => '06:30:00',
+        'sleep_date' => now()->toDateString(),
     ]);
 
     $response->assertCreated()
@@ -24,7 +24,7 @@ it('stores a sleep log', function () {
         ->assertJsonPath('data.quality_category', 'good');
 
     $this->assertDatabaseHas('sleep_logs', [
-        'user_id'          => $user->id,
+        'user_id' => $user->id,
         'duration_minutes' => 480,
     ]);
 });
@@ -37,8 +37,8 @@ it('updates existing sleep log for same date', function () {
 
     $this->postJson('/api/v1/sleep', [
         'duration_minutes' => 360,
-        'quality_score'    => 8.5,
-        'sleep_date'       => $date,
+        'quality_score' => 8.5,
+        'sleep_date' => $date,
     ])->assertOk()
         ->assertJsonPath('data.quality_score', '8.50');
 

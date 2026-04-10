@@ -27,25 +27,25 @@ class OpenAIProvider implements ChatAIProviderInterface
         PROMPT;
 
         $response = OpenAI::chat()->create([
-            'model'    => 'gpt-4o-mini',
+            'model' => 'gpt-4o-mini',
             'messages' => [
                 ['role' => 'system', 'content' => $systemPrompt],
                 ['role' => 'user', 'content' => $message],
             ],
             'response_format' => ['type' => 'json_object'],
-            'max_tokens'      => 300,
-            'temperature'     => 0.3,
+            'max_tokens' => 300,
+            'temperature' => 0.3,
         ]);
 
         $raw = $response->toArray();
         $parsed = json_decode($raw['choices'][0]['message']['content'] ?? '{}', true) ?? [];
 
         return [
-            'sentiment_score'  => (float) ($parsed['sentiment_score'] ?? 0.0),
+            'sentiment_score' => (float) ($parsed['sentiment_score'] ?? 0.0),
             'detected_emotion' => (string) ($parsed['detected_emotion'] ?? 'neutral'),
-            'confidence'       => (float) ($parsed['confidence'] ?? 0.5),
-            'ai_reply'         => (string) ($parsed['ai_reply'] ?? 'Terima kasih telah berbagi.'),
-            'raw_response'     => $raw,
+            'confidence' => (float) ($parsed['confidence'] ?? 0.5),
+            'ai_reply' => (string) ($parsed['ai_reply'] ?? 'Terima kasih telah berbagi.'),
+            'raw_response' => $raw,
         ];
     }
 
@@ -59,7 +59,7 @@ class OpenAIProvider implements ChatAIProviderInterface
         // Transcribe with Whisper
         $transcription = OpenAI::audio()->transcribe([
             'model' => 'whisper-1',
-            'file'  => fopen($audioPath, 'rb'),
+            'file' => fopen($audioPath, 'rb'),
         ]);
 
         $transcribedText = $transcription->text;
@@ -73,15 +73,14 @@ class OpenAIProvider implements ChatAIProviderInterface
         $stressLevel = max(0.0, min(100.0, $stressLevel));
 
         return [
-            'stress_level'     => $stressLevel,
+            'stress_level' => $stressLevel,
             'detected_emotion' => $analysisResult['detected_emotion'],
             'confidence_score' => $analysisResult['confidence'],
-            'raw_analysis'     => [
-                'transcript'       => $transcribedText,
-                'sentiment_score'  => $sentimentScore,
-                'openai_response'  => $analysisResult['raw_response'],
+            'raw_analysis' => [
+                'transcript' => $transcribedText,
+                'sentiment_score' => $sentimentScore,
+                'openai_response' => $analysisResult['raw_response'],
             ],
         ];
     }
 }
-

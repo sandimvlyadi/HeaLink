@@ -1,0 +1,22 @@
+echo "🔍 Running PHP code style check (Pint)..."
+vendor/bin/pint --test
+if [ $? -ne 0 ]; then
+    echo "❌ Pint check failed. Run 'vendor/bin/pint' to fix."
+    exit 1
+fi
+
+echo "🔍 Running JS/TS lint check (ESLint)..."
+npm run lint:check
+if [ $? -ne 0 ]; then
+    echo "❌ ESLint check failed. Run 'npm run lint' to fix."
+    exit 1
+fi
+
+echo "🧪 Running tests (Pest)..."
+php artisan test --compact
+if [ $? -ne 0 ]; then
+    echo "❌ Tests failed. Fix failing tests before pushing."
+    exit 1
+fi
+
+echo "✅ All checks passed!"

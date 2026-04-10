@@ -23,8 +23,8 @@ test('medic can view notifications index', function () {
 test('medic can mark a notification as read', function () {
     $medic = User::factory()->medic()->create();
     $notification = Notification::factory()->create([
-        'user_id'  => $medic->id,
-        'is_read'  => false,
+        'user_id' => $medic->id,
+        'is_read' => false,
     ]);
 
     $this->actingAs($medic)

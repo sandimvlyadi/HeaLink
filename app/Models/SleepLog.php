@@ -28,8 +28,8 @@ class SleepLog extends Model
     {
         return [
             'duration_minutes' => 'integer',
-            'quality_score'    => 'decimal:2',
-            'sleep_date'       => 'datetime:Y-m-d',
+            'quality_score' => 'decimal:2',
+            'sleep_date' => 'datetime:Y-m-d',
         ];
     }
 

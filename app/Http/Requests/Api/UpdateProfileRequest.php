@@ -17,12 +17,12 @@ class UpdateProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'        => ['sometimes', 'string', 'max:255'],
-            'gender'      => ['nullable', 'string', 'in:male,female,other'],
-            'dob'         => ['nullable', 'date', 'before:today'],
-            'job'         => ['nullable', 'string', 'max:100'],
-            'phone'       => ['nullable', 'string', 'max:20'],
-            'bio'         => ['nullable', 'string', 'max:1000'],
+            'name' => ['sometimes', 'string', 'max:255'],
+            'gender' => ['nullable', 'string', 'in:male,female,other'],
+            'dob' => ['nullable', 'date', 'before:today'],
+            'job' => ['nullable', 'string', 'max:100'],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'bio' => ['nullable', 'string', 'max:1000'],
         ];
     }
 }

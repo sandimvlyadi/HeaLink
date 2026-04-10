@@ -20,11 +20,11 @@ class NotificationService
         array $actionData = [],
     ): Notification {
         return Notification::create([
-            'user_id'     => $user->id,
-            'title'       => $title,
-            'message'     => $message,
-            'type'        => $type,
-            'is_read'     => false,
+            'user_id' => $user->id,
+            'title' => $title,
+            'message' => $message,
+            'type' => $type,
+            'is_read' => false,
             'action_data' => empty($actionData) ? null : $actionData,
         ]);
     }
@@ -78,4 +78,3 @@ class NotificationService
         return $user->appNotifications()->where('is_read', false)->update(['is_read' => true]);
     }
 }
-

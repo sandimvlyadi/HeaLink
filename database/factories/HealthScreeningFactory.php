@@ -22,14 +22,14 @@ class HealthScreeningFactory extends Factory
         $phq9Score = array_sum($phq9Answers);
 
         return [
-            'user_id'      => User::factory(),
-            'height_cm'    => $height,
-            'weight_kg'    => $weight,
-            'bmi'          => $bmi,
-            'systolic'     => fake()->numberBetween(100, 160),
-            'diastolic'    => fake()->numberBetween(60, 100),
+            'user_id' => User::factory(),
+            'height_cm' => $height,
+            'weight_kg' => $weight,
+            'bmi' => $bmi,
+            'systolic' => fake()->numberBetween(100, 160),
+            'diastolic' => fake()->numberBetween(60, 100),
             'phq9_answers' => $phq9Answers,
-            'phq9_score'   => $phq9Score,
+            'phq9_score' => $phq9Score,
         ];
     }
 }

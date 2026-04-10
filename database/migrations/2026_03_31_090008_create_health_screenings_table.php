@@ -18,15 +18,15 @@ return new class extends Migration
             $table->decimal('height_cm', 5, 2)->nullable();
             $table->decimal('weight_kg', 5, 2)->nullable();
             $table->decimal('bmi', 5, 2)->nullable()
-                  ->comment('Auto-calculated: weight_kg / (height_m ^ 2)');
+                ->comment('Auto-calculated: weight_kg / (height_m ^ 2)');
             $table->smallInteger('systolic')->nullable()
-                  ->comment('Tekanan darah sistolik (mmHg)');
+                ->comment('Tekanan darah sistolik (mmHg)');
             $table->smallInteger('diastolic')->nullable()
-                  ->comment('Tekanan darah diastolik (mmHg)');
+                ->comment('Tekanan darah diastolik (mmHg)');
             $table->jsonb('phq9_answers')->nullable()
-                  ->comment('Array[9] integer 0–3, jawaban PHQ-9');
+                ->comment('Array[9] integer 0–3, jawaban PHQ-9');
             $table->smallInteger('phq9_score')->nullable()
-                  ->comment('Sum phq9_answers (0–27). Auto-calculated.');
+                ->comment('Sum phq9_answers (0–27). Auto-calculated.');
             $table->timestamps();
             $table->softDeletes();
 

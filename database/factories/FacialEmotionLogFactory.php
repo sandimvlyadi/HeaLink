@@ -34,11 +34,11 @@ class FacialEmotionLogFactory extends Factory
         $breakdown[$detectedMood] = round(max(0.001, 1.0 - $allocated), 3);
 
         return [
-            'consultation_id'   => Consultation::factory(),
-            'detected_mood'     => $detectedMood,
-            'confidence'        => round(fake()->randomFloat(3, 0.50, 1.000), 3),
+            'consultation_id' => Consultation::factory(),
+            'detected_mood' => $detectedMood,
+            'confidence' => round(fake()->randomFloat(3, 0.50, 1.000), 3),
             'emotion_breakdown' => $breakdown,
-            'captured_at'       => fake()->dateTimeBetween('-30 days', 'now'),
+            'captured_at' => fake()->dateTimeBetween('-30 days', 'now'),
         ];
     }
 }

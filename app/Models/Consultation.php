@@ -32,8 +32,8 @@ class Consultation extends Model
     {
         return [
             'scheduled_at' => 'datetime',
-            'started_at'   => 'datetime',
-            'ended_at'     => 'datetime',
+            'started_at' => 'datetime',
+            'ended_at' => 'datetime',
         ];
     }
 

@@ -27,9 +27,9 @@ class VoiceAnalysis extends Model
     protected function casts(): array
     {
         return [
-            'stress_level'     => 'decimal:2',
+            'stress_level' => 'decimal:2',
             'confidence_score' => 'decimal:3',
-            'raw_analysis'     => 'array',
+            'raw_analysis' => 'array',
         ];
     }
 

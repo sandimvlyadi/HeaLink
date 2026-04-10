@@ -23,12 +23,12 @@ class RiskScoringService
         $riskLevel = $this->scoreToLevel($score);
 
         return MentalStatusLog::create([
-            'user_id'              => $user->id,
-            'risk_level'           => $riskLevel,
-            'risk_score'           => $score,
+            'user_id' => $user->id,
+            'risk_level' => $riskLevel,
+            'risk_score' => $score,
             'contributing_factors' => $factors,
-            'detected_emotion'     => $factors['latest_emotion'] ?? null,
-            'summary_note'         => $this->generateSummary($factors, $riskLevel),
+            'detected_emotion' => $factors['latest_emotion'] ?? null,
+            'summary_note' => $this->generateSummary($factors, $riskLevel),
         ]);
     }
 
@@ -46,11 +46,11 @@ class RiskScoringService
         $latestEmotion = $user->chatHistories()->latest()->value('detected_emotion');
 
         return [
-            'hrv'            => $latestWearable?->hrv_score !== null ? (float) $latestWearable->hrv_score : null,
+            'hrv' => $latestWearable?->hrv_score !== null ? (float) $latestWearable->hrv_score : null,
             'sleep_duration' => $latestSleep?->duration_minutes,
-            'sentiment'      => $sentiment !== null ? (float) $sentiment : null,
-            'phq9'           => $latestScreening?->phq9_score,
-            'stress_index'   => $latestWearable?->stress_index !== null ? (float) $latestWearable->stress_index : null,
+            'sentiment' => $sentiment !== null ? (float) $sentiment : null,
+            'phq9' => $latestScreening?->phq9_score,
+            'stress_index' => $latestWearable?->stress_index !== null ? (float) $latestWearable->stress_index : null,
             'latest_emotion' => $latestEmotion,
         ];
     }
@@ -64,11 +64,11 @@ class RiskScoringService
     public function computeWeightedScore(array $factors, Collection $thresholds): float
     {
         $factorMap = [
-            'hrv'             => $factors['hrv'] ?? null,
-            'sleep_duration'  => $factors['sleep_duration'] ?? null,
+            'hrv' => $factors['hrv'] ?? null,
+            'sleep_duration' => $factors['sleep_duration'] ?? null,
             'sentiment_score' => $factors['sentiment'] ?? null,
-            'phq9_score'      => $factors['phq9'] ?? null,
-            'stress_index'    => $factors['stress_index'] ?? null,
+            'phq9_score' => $factors['phq9'] ?? null,
+            'stress_index' => $factors['stress_index'] ?? null,
         ];
 
         $totalWeightedScore = 0.0;
@@ -133,7 +133,7 @@ class RiskScoringService
             $score >= 81 => 'critical',
             $score >= 61 => 'high',
             $score >= 31 => 'medium',
-            default      => 'low',
+            default => 'low',
         };
     }
 
@@ -144,9 +144,9 @@ class RiskScoringService
     {
         return match ($riskLevel) {
             'critical' => 'Pasien dalam kondisi kritis. Tindakan segera diperlukan!',
-            'high'     => 'Pasien berisiko tinggi. Intervensi dokter direkomendasikan segera.',
-            'medium'   => 'Pasien menunjukkan beberapa indikator stres. Pemantauan rutin direkomendasikan.',
-            default    => 'Kondisi mental pasien berada dalam kategori baik.',
+            'high' => 'Pasien berisiko tinggi. Intervensi dokter direkomendasikan segera.',
+            'medium' => 'Pasien menunjukkan beberapa indikator stres. Pemantauan rutin direkomendasikan.',
+            default => 'Kondisi mental pasien berada dalam kategori baik.',
         };
     }
 
@@ -169,4 +169,3 @@ class RiskScoringService
         return round($outMin + ($outMax - $outMin) * $ratio, 2);
     }
 }
-

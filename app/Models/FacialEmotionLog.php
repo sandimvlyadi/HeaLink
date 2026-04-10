@@ -25,9 +25,9 @@ class FacialEmotionLog extends Model
     protected function casts(): array
     {
         return [
-            'confidence'        => 'decimal:3',
+            'confidence' => 'decimal:3',
             'emotion_breakdown' => 'array',
-            'captured_at'       => 'datetime',
+            'captured_at' => 'datetime',
         ];
     }
 

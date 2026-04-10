@@ -18,4 +18,3 @@ class HealthScreeningSeeder extends Seeder
         });
     }
 }
-

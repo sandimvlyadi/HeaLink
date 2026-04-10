@@ -29,13 +29,13 @@ class HealthScreening extends Model
     protected function casts(): array
     {
         return [
-            'height_cm'    => 'decimal:2',
-            'weight_kg'    => 'decimal:2',
-            'bmi'          => 'decimal:2',
+            'height_cm' => 'decimal:2',
+            'weight_kg' => 'decimal:2',
+            'bmi' => 'decimal:2',
             'phq9_answers' => 'array',
-            'phq9_score'   => 'integer',
-            'systolic'     => 'integer',
-            'diastolic'    => 'integer',
+            'phq9_score' => 'integer',
+            'systolic' => 'integer',
+            'diastolic' => 'integer',
         ];
     }
 

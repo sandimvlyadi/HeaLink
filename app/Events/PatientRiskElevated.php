@@ -27,12 +27,12 @@ class PatientRiskElevated implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'patient_uuid'  => $this->patient->uuid,
-            'patient_name'  => $this->patient->name,
-            'risk_level'    => $this->mentalStatusLog->risk_level,
-            'risk_score'    => $this->mentalStatusLog->risk_score,
-            'summary_note'  => $this->mentalStatusLog->summary_note,
-            'occurred_at'   => $this->mentalStatusLog->created_at?->toIso8601String(),
+            'patient_uuid' => $this->patient->uuid,
+            'patient_name' => $this->patient->name,
+            'risk_level' => $this->mentalStatusLog->risk_level,
+            'risk_score' => $this->mentalStatusLog->risk_score,
+            'summary_note' => $this->mentalStatusLog->summary_note,
+            'occurred_at' => $this->mentalStatusLog->created_at?->toIso8601String(),
         ];
     }
 
@@ -53,4 +53,3 @@ class PatientRiskElevated implements ShouldBroadcast
         return empty($channels) ? [new PrivateChannel('doctors')] : $channels;
     }
 }
-

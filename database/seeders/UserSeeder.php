@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -16,7 +15,7 @@ class UserSeeder extends Seeder
     {
         // 1 Admin
         $admin = User::factory()->admin()->create([
-            'name'  => 'Admin HeaLink',
+            'name' => 'Admin HeaLink',
             'email' => 'admin@healink.id',
         ]);
         UserProfile::factory()->create(['user_id' => $admin->id]);
@@ -39,4 +38,3 @@ class UserSeeder extends Seeder
         });
     }
 }
-

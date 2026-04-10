@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('detected_emotion', 50)->nullable();
             $table->text('summary_note')->nullable();
             $table->jsonb('contributing_factors')->nullable()
-                  ->comment('{"hrv": 0.8, "sleep": 0.5, "sentiment": -0.7, "phq9": 0.6}');
+                ->comment('{"hrv": 0.8, "sleep": 0.5, "sentiment": -0.7, "phq9": 0.6}');
             $table->decimal('risk_score', 5, 2)->nullable()->comment('0.00–100.00');
             $table->timestamps();
 

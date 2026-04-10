@@ -9,8 +9,8 @@ it('syncs vital data', function () {
     Sanctum::actingAs($user);
 
     $response = $this->postJson('/api/v1/vitals/sync', [
-        'hrv_score'   => 65.50,
-        'heart_rate'  => 72,
+        'hrv_score' => 65.50,
+        'heart_rate' => 72,
         'device_type' => 'Garmin',
     ]);
 
@@ -20,7 +20,7 @@ it('syncs vital data', function () {
         ->assertJsonMissing(['id']);
 
     $this->assertDatabaseHas('wearable_data', [
-        'user_id'    => $user->id,
+        'user_id' => $user->id,
         'heart_rate' => 72,
     ]);
 });
@@ -30,7 +30,7 @@ it('auto-calculates stress_index from hrv when not provided', function () {
     Sanctum::actingAs($user);
 
     $this->postJson('/api/v1/vitals/sync', [
-        'hrv_score'  => 60.00,
+        'hrv_score' => 60.00,
         'heart_rate' => 70,
     ])->assertCreated()
         ->assertJsonPath('data.stress_index', '40.00');

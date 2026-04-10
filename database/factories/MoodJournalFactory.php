@@ -16,9 +16,9 @@ class MoodJournalFactory extends Factory
      */
     private static array $moodEmoji = [
         'very_bad' => '😢',
-        'bad'      => '😔',
-        'neutral'  => '😐',
-        'good'     => '😊',
+        'bad' => '😔',
+        'neutral' => '😐',
+        'good' => '😊',
         'very_good' => '😄',
     ];
 
@@ -27,10 +27,10 @@ class MoodJournalFactory extends Factory
         $mood = fake()->randomElement(['very_bad', 'bad', 'neutral', 'good', 'very_good']);
 
         return [
-            'user_id'      => User::factory(),
-            'emoji'        => self::$moodEmoji[$mood],
-            'mood'         => $mood,
-            'note'         => fake()->optional(0.7)->sentence(),
+            'user_id' => User::factory(),
+            'emoji' => self::$moodEmoji[$mood],
+            'mood' => $mood,
+            'note' => fake()->optional(0.7)->sentence(),
             'journal_date' => fake()->dateTimeBetween('-30 days', 'now')->format('Y-m-d'),
         ];
     }

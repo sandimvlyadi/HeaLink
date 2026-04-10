@@ -24,17 +24,17 @@ class SendDoctorNotification implements ShouldQueue
 
         $title = match ($riskLevel) {
             'critical' => "\u26a0\ufe0f KRITIS: {$patientName} membutuhkan perhatian segera",
-            'high'     => "\u{1F534} Risiko Tinggi: {$patientName}",
-            default    => "Peringatan Risiko: {$patientName}",
+            'high' => "\u{1F534} Risiko Tinggi: {$patientName}",
+            default => "Peringatan Risiko: {$patientName}",
         };
 
         $message = $event->mentalStatusLog->summary_note
             ?? "Skor risiko pasien {$patientName}: {$event->mentalStatusLog->risk_score}.";
 
         $actionData = [
-            'type'         => 'patient_risk',
+            'type' => 'patient_risk',
             'patient_uuid' => $event->patient->uuid,
-            'risk_level'   => $riskLevel,
+            'risk_level' => $riskLevel,
         ];
 
         User::where('role', 'medic')
@@ -48,4 +48,3 @@ class SendDoctorNotification implements ShouldQueue
             ));
     }
 }
-

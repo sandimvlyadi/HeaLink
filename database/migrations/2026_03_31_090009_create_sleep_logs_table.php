@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->smallInteger('duration_minutes')->unsigned();
             $table->decimal('quality_score', 4, 2)
-                  ->comment('0.00–10.00 dari wearable atau self-report');
+                ->comment('0.00–10.00 dari wearable atau self-report');
             $table->string('quality_category', 10)->nullable(); // 'poor'|'fair'|'good'
             $table->time('sleep_time')->nullable();
             $table->time('wake_time')->nullable();

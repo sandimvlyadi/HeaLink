@@ -21,7 +21,7 @@ class NotificationController extends Controller
 
         return Inertia::render('notifications/index', [
             'notifications' => NotificationResource::collection($notifications),
-            'unread_count'  => $request->user()->appNotifications()->where('is_read', false)->count(),
+            'unread_count' => $request->user()->appNotifications()->where('is_read', false)->count(),
         ]);
     }
 

@@ -16,9 +16,9 @@ class WearableSeeder extends Seeder
      */
     public function run(): void
     {
-        $patients  = User::where('role', 'patient')->pluck('id');
-        $now       = Carbon::now()->setMinute(0)->setSecond(0)->setMicrosecond(0);
-        $chunk     = [];
+        $patients = User::where('role', 'patient')->pluck('id');
+        $now = Carbon::now()->setMinute(0)->setSecond(0)->setMicrosecond(0);
+        $chunk = [];
         $chunkSize = 500;
         $timestamp = now()->toDateTimeString();
 
@@ -28,22 +28,22 @@ class WearableSeeder extends Seeder
                     $recordedAt = $now->copy()->subDays($day)->setHour($hour);
 
                     // Circadian rhythm: HRV higher in morning, lower in evening
-                    $base  = 50 + (10 * cos(($hour - 6) * M_PI / 12));
+                    $base = 50 + (10 * cos(($hour - 6) * M_PI / 12));
                     $noise = mt_rand(-150, 150) / 10; // ±15 ms noise
-                    $hrv   = round(max(15.0, min(100.0, $base + $noise)), 2);
-                    $hr    = max(50, min(110, (int) (75 - ($hrv * 0.3) + mt_rand(-5, 5))));
+                    $hrv = round(max(15.0, min(100.0, $base + $noise)), 2);
+                    $hr = max(50, min(110, (int) (75 - ($hrv * 0.3) + mt_rand(-5, 5))));
 
                     $chunk[] = [
-                        'uuid'         => Str::uuid(),
-                        'user_id'      => $userId,
-                        'hrv_score'    => $hrv,
-                        'heart_rate'   => $hr,
+                        'uuid' => Str::uuid(),
+                        'user_id' => $userId,
+                        'hrv_score' => $hrv,
+                        'heart_rate' => $hr,
                         'stress_index' => round(100 - $hrv, 2),
-                        'device_type'  => 'Simulated',
+                        'device_type' => 'Simulated',
                         'is_simulated' => true,
-                        'recorded_at'  => $recordedAt->toDateTimeString(),
-                        'created_at'   => $timestamp,
-                        'updated_at'   => $timestamp,
+                        'recorded_at' => $recordedAt->toDateTimeString(),
+                        'created_at' => $timestamp,
+                        'updated_at' => $timestamp,
                     ];
 
                     if (count($chunk) >= $chunkSize) {
@@ -59,4 +59,3 @@ class WearableSeeder extends Seeder
         }
     }
 }
-

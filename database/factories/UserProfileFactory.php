@@ -14,13 +14,13 @@ class UserProfileFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id'     => User::factory(),
-            'gender'      => fake()->randomElement(['male', 'female', 'other']),
-            'dob'         => fake()->dateTimeBetween('-60 years', '-18 years')->format('Y-m-d'),
-            'job'         => fake()->jobTitle(),
-            'phone'       => fake()->phoneNumber(),
+            'user_id' => User::factory(),
+            'gender' => fake()->randomElement(['male', 'female', 'other']),
+            'dob' => fake()->dateTimeBetween('-60 years', '-18 years')->format('Y-m-d'),
+            'job' => fake()->jobTitle(),
+            'phone' => fake()->phoneNumber(),
             'avatar_path' => null,
-            'bio'         => fake()->optional(0.6)->paragraph(),
+            'bio' => fake()->optional(0.6)->paragraph(),
         ];
     }
 }

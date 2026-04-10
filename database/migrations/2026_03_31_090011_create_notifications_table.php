@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('title', 150);
             $table->text('message');
             $table->string('type', 20)->default('info')
-                  ->comment("'info'|'warning'|'critical'|'reminder'");
+                ->comment("'info'|'warning'|'critical'|'reminder'");
             $table->boolean('is_read')->default(false);
             $table->jsonb('action_data')->nullable()
-                  ->comment('Deep link atau action payload untuk mobile');
+                ->comment('Deep link atau action payload untuk mobile');
             $table->timestamps();
             $table->softDeletes();
 

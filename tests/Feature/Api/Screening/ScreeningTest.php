@@ -9,10 +9,10 @@ it('creates a health screening with BMI and PHQ-9 auto-calculated', function () 
     Sanctum::actingAs($user);
 
     $response = $this->putJson('/api/v1/screening', [
-        'height_cm'    => 170.0,
-        'weight_kg'    => 70.0,
-        'systolic'     => 120,
-        'diastolic'    => 80,
+        'height_cm' => 170.0,
+        'weight_kg' => 70.0,
+        'systolic' => 120,
+        'diastolic' => 80,
         'phq9_answers' => [1, 0, 2, 1, 0, 1, 0, 1, 2],
     ]);
 
@@ -22,7 +22,7 @@ it('creates a health screening with BMI and PHQ-9 auto-calculated', function () 
         ->assertJsonPath('data.bmi', '24.22');
 
     $this->assertDatabaseHas('health_screenings', [
-        'user_id'    => $user->id,
+        'user_id' => $user->id,
         'phq9_score' => 8,
     ]);
 });

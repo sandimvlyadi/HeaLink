@@ -6,9 +6,9 @@ use Laravel\Sanctum\Sanctum;
 
 it('registers a new patient', function () {
     $response = $this->postJson('/api/v1/auth/register', [
-        'name'                  => 'Test Patient',
-        'email'                 => 'patient@test.com',
-        'password'              => 'password',
+        'name' => 'Test Patient',
+        'email' => 'patient@test.com',
+        'password' => 'password',
         'password_confirmation' => 'password',
     ]);
 
@@ -29,9 +29,9 @@ it('fails registration with duplicate email', function () {
     User::factory()->create(['email' => 'duplicate@test.com']);
 
     $response = $this->postJson('/api/v1/auth/register', [
-        'name'                  => 'Test',
-        'email'                 => 'duplicate@test.com',
-        'password'              => 'password',
+        'name' => 'Test',
+        'email' => 'duplicate@test.com',
+        'password' => 'password',
         'password_confirmation' => 'password',
     ]);
 
@@ -41,9 +41,9 @@ it('fails registration with duplicate email', function () {
 
 it('fails registration with mismatched password', function () {
     $response = $this->postJson('/api/v1/auth/register', [
-        'name'                  => 'Test',
-        'email'                 => 'new@test.com',
-        'password'              => 'password',
+        'name' => 'Test',
+        'email' => 'new@test.com',
+        'password' => 'password',
         'password_confirmation' => 'wrong-password',
     ]);
 
@@ -55,7 +55,7 @@ it('logs in with valid credentials', function () {
     $user = User::factory()->patient()->create();
 
     $response = $this->postJson('/api/v1/auth/login', [
-        'email'    => $user->email,
+        'email' => $user->email,
         'password' => 'password',
     ]);
 
@@ -68,7 +68,7 @@ it('rejects login with wrong password', function () {
     $user = User::factory()->create();
 
     $response = $this->postJson('/api/v1/auth/login', [
-        'email'    => $user->email,
+        'email' => $user->email,
         'password' => 'wrong-password',
     ]);
 
@@ -80,7 +80,7 @@ it('rejects login for inactive user', function () {
     $user = User::factory()->inactive()->create();
 
     $response = $this->postJson('/api/v1/auth/login', [
-        'email'    => $user->email,
+        'email' => $user->email,
         'password' => 'password',
     ]);
 
@@ -119,9 +119,9 @@ it('updates user profile', function () {
     Sanctum::actingAs($user);
 
     $response = $this->putJson('/api/v1/auth/profile', [
-        'name'   => 'Updated Name',
+        'name' => 'Updated Name',
         'gender' => 'male',
-        'job'    => 'Software Engineer',
+        'job' => 'Software Engineer',
     ]);
 
     $response->assertOk()

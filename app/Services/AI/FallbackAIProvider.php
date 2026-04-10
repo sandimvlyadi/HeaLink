@@ -17,11 +17,11 @@ class FallbackAIProvider implements ChatAIProviderInterface
     public function analyze(string $message, array $context = []): array
     {
         return [
-            'sentiment_score'  => 0.0,
+            'sentiment_score' => 0.0,
             'detected_emotion' => 'neutral',
-            'confidence'       => 0.0,
-            'ai_reply'         => 'Terima kasih telah berbagi. Saya di sini untuk mendengarkan dan mendukung Anda.',
-            'raw_response'     => ['provider' => 'fallback'],
+            'confidence' => 0.0,
+            'ai_reply' => 'Terima kasih telah berbagi. Saya di sini untuk mendengarkan dan mendukung Anda.',
+            'raw_response' => ['provider' => 'fallback'],
         ];
     }
 
@@ -31,11 +31,10 @@ class FallbackAIProvider implements ChatAIProviderInterface
     public function analyzeVoice(string $audioPath): array
     {
         return [
-            'stress_level'     => 50.0,
+            'stress_level' => 50.0,
             'detected_emotion' => 'neutral',
             'confidence_score' => 0.0,
-            'raw_analysis'     => ['provider' => 'fallback'],
+            'raw_analysis' => ['provider' => 'fallback'],
         ];
     }
 }
-

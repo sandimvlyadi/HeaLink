@@ -32,4 +32,3 @@ interface ChatAIProviderInterface
      */
     public function analyzeVoice(string $audioPath): array;
 }
-
